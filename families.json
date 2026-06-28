@@ -1,0 +1,682 @@
+[
+  {
+    "key": "agbo",
+    "review": false,
+    "members": [
+      {
+        "word": "àgbo",
+        "meaning": "herbal medicine"
+      },
+      {
+        "word": "àgbò",
+        "meaning": "ram"
+      }
+    ]
+  },
+  {
+    "key": "ale",
+    "review": false,
+    "members": [
+      {
+        "word": "alẹ́",
+        "meaning": "night"
+      },
+      {
+        "word": "àlè",
+        "meaning": "secret lover"
+      }
+    ]
+  },
+  {
+    "key": "apa",
+    "review": true,
+    "members": [
+      {
+        "word": "apá",
+        "meaning": "arm"
+      },
+      {
+        "word": "àpá",
+        "meaning": "scar"
+      }
+    ]
+  },
+  {
+    "key": "aya",
+    "review": false,
+    "members": [
+      {
+        "word": "aya",
+        "meaning": "wife"
+      },
+      {
+        "word": "àyà",
+        "meaning": "chest"
+      }
+    ]
+  },
+  {
+    "key": "aye",
+    "review": true,
+    "members": [
+      {
+        "word": "ayé",
+        "meaning": "world, life"
+      },
+      {
+        "word": "ayè",
+        "meaning": "space, opportunity"
+      }
+    ]
+  },
+  {
+    "key": "bo",
+    "review": false,
+    "members": [
+      {
+        "word": "bọ́",
+        "meaning": "to take off"
+      },
+      {
+        "word": "bọ",
+        "meaning": "to worship"
+      }
+    ]
+  },
+  {
+    "key": "de",
+    "review": false,
+    "members": [
+      {
+        "word": "dé",
+        "meaning": "to arrive"
+      },
+      {
+        "word": "dè",
+        "meaning": "to tie / bind"
+      }
+    ]
+  },
+  {
+    "key": "din",
+    "review": false,
+    "members": [
+      {
+        "word": "dín",
+        "meaning": "to fry"
+      },
+      {
+        "word": "din",
+        "meaning": "sound / noise"
+      }
+    ]
+  },
+  {
+    "key": "ebi",
+    "review": false,
+    "members": [
+      {
+        "word": "ebi",
+        "meaning": "hunger"
+      },
+      {
+        "word": "ẹbí",
+        "meaning": "family / relative"
+      }
+    ]
+  },
+  {
+    "key": "fa",
+    "review": false,
+    "members": [
+      {
+        "word": "fa",
+        "meaning": "to drag"
+      },
+      {
+        "word": "fá",
+        "meaning": "to scrape"
+      }
+    ]
+  },
+  {
+    "key": "fo",
+    "review": false,
+    "members": [
+      {
+        "word": "fọ́",
+        "meaning": "to break"
+      },
+      {
+        "word": "fọ",
+        "meaning": "to wash"
+      },
+      {
+        "word": "fò",
+        "meaning": "to fly / jump"
+      }
+    ]
+  },
+  {
+    "key": "gba",
+    "review": false,
+    "members": [
+      {
+        "word": "gbà",
+        "meaning": "to take / receive"
+      },
+      {
+        "word": "gbá",
+        "meaning": "to sweep"
+      }
+    ]
+  },
+  {
+    "key": "gbe",
+    "review": false,
+    "members": [
+      {
+        "word": "gbé",
+        "meaning": "to marry / take"
+      },
+      {
+        "word": "gbẹ",
+        "meaning": "to dry"
+      }
+    ]
+  },
+  {
+    "key": "gun",
+    "review": false,
+    "members": [
+      {
+        "word": "gún",
+        "meaning": "to pound"
+      },
+      {
+        "word": "gun",
+        "meaning": "to climb"
+      }
+    ]
+  },
+  {
+    "key": "igba",
+    "review": false,
+    "members": [
+      {
+        "word": "ìgbà",
+        "meaning": "time / season"
+      },
+      {
+        "word": "igba",
+        "meaning": "calabash / two hundred"
+      }
+    ]
+  },
+  {
+    "key": "ile",
+    "review": false,
+    "members": [
+      {
+        "word": "ilé",
+        "meaning": "house"
+      },
+      {
+        "word": "ilẹ̀",
+        "meaning": "ground / land"
+      }
+    ]
+  },
+  {
+    "key": "ja",
+    "review": false,
+    "members": [
+      {
+        "word": "já",
+        "meaning": "to pluck / snap"
+      },
+      {
+        "word": "jà",
+        "meaning": "to fight"
+      }
+    ]
+  },
+  {
+    "key": "je",
+    "review": false,
+    "members": [
+      {
+        "word": "jẹ́",
+        "meaning": "to be / answer to"
+      },
+      {
+        "word": "jẹ",
+        "meaning": "to bite / eat"
+      }
+    ]
+  },
+  {
+    "key": "jo",
+    "review": false,
+    "members": [
+      {
+        "word": "jọ",
+        "meaning": "to resemble"
+      },
+      {
+        "word": "jó",
+        "meaning": "to dance"
+      }
+    ]
+  },
+  {
+    "key": "kan",
+    "review": false,
+    "members": [
+      {
+        "word": "kan",
+        "meaning": "to drive in / nail"
+      },
+      {
+        "word": "kán",
+        "meaning": "to snap / break"
+      }
+    ]
+  },
+  {
+    "key": "ko",
+    "review": false,
+    "members": [
+      {
+        "word": "kọ́",
+        "meaning": "to learn"
+      },
+      {
+        "word": "kọ",
+        "meaning": "to write"
+      },
+      {
+        "word": "kọ̀",
+        "meaning": "to refuse"
+      }
+    ]
+  },
+  {
+    "key": "kun",
+    "review": false,
+    "members": [
+      {
+        "word": "kun",
+        "meaning": "to paint"
+      },
+      {
+        "word": "kùn",
+        "meaning": "to grumble"
+      }
+    ]
+  },
+  {
+    "key": "le",
+    "review": false,
+    "members": [
+      {
+        "word": "lé",
+        "meaning": "to chase away"
+      },
+      {
+        "word": "le",
+        "meaning": "to be hard"
+      }
+    ]
+  },
+  {
+    "key": "lo",
+    "review": false,
+    "members": [
+      {
+        "word": "lọ",
+        "meaning": "to go (went)"
+      },
+      {
+        "word": "lọ̀",
+        "meaning": "to grind"
+      },
+      {
+        "word": "lo",
+        "meaning": "to use"
+      }
+    ]
+  },
+  {
+    "key": "mo",
+    "review": false,
+    "members": [
+      {
+        "word": "mọ́",
+        "meaning": "to clean"
+      },
+      {
+        "word": "mọ",
+        "meaning": "to know"
+      },
+      {
+        "word": "mo",
+        "meaning": "I / me"
+      }
+    ]
+  },
+  {
+    "key": "mu",
+    "review": false,
+    "members": [
+      {
+        "word": "mu",
+        "meaning": "to drink"
+      },
+      {
+        "word": "mú",
+        "meaning": "to hold / catch"
+      }
+    ]
+  },
+  {
+    "key": "ojo",
+    "review": false,
+    "members": [
+      {
+        "word": "òjò",
+        "meaning": "rain"
+      },
+      {
+        "word": "ọjọ́",
+        "meaning": "day"
+      }
+    ]
+  },
+  {
+    "key": "oka",
+    "review": true,
+    "members": [
+      {
+        "word": "ọkà",
+        "meaning": "corn, cereal"
+      },
+      {
+        "word": "oká",
+        "meaning": "cobra"
+      }
+    ]
+  },
+  {
+    "key": "oko",
+    "review": true,
+    "members": [
+      {
+        "word": "oko",
+        "meaning": "farm"
+      },
+      {
+        "word": "ọkọ́",
+        "meaning": "hoe"
+      },
+      {
+        "word": "ọkọ",
+        "meaning": "husband"
+      },
+      {
+        "word": "ọkọ̀",
+        "meaning": "vehicle"
+      },
+      {
+        "word": "ọ̀kọ̀",
+        "meaning": "spear"
+      }
+    ]
+  },
+  {
+    "key": "ona",
+    "review": true,
+    "members": [
+      {
+        "word": "ọ̀nà",
+        "meaning": "road, way"
+      },
+      {
+        "word": "ọnà",
+        "meaning": "art, craft"
+      }
+    ]
+  },
+  {
+    "key": "ore",
+    "review": false,
+    "members": [
+      {
+        "word": "ọ̀rẹ́",
+        "meaning": "friends"
+      },
+      {
+        "word": "ọrẹ",
+        "meaning": "gift / offering"
+      }
+    ]
+  },
+  {
+    "key": "oro",
+    "review": true,
+    "members": [
+      {
+        "word": "ọ̀rọ̀",
+        "meaning": "word, matter"
+      },
+      {
+        "word": "ọrọ̀",
+        "meaning": "wealth"
+      },
+      {
+        "word": "oró",
+        "meaning": "venom"
+      }
+    ]
+  },
+  {
+    "key": "owo",
+    "review": true,
+    "members": [
+      {
+        "word": "owó",
+        "meaning": "money"
+      },
+      {
+        "word": "ọwọ́",
+        "meaning": "hand"
+      },
+      {
+        "word": "ọ̀wọ̀",
+        "meaning": "respect"
+      }
+    ]
+  },
+  {
+    "key": "pade",
+    "review": false,
+    "members": [
+      {
+        "word": "pàdé",
+        "meaning": "to meet"
+      },
+      {
+        "word": "padé",
+        "meaning": "to close"
+      }
+    ]
+  },
+  {
+    "key": "pe",
+    "review": false,
+    "members": [
+      {
+        "word": "pè",
+        "meaning": "to call"
+      },
+      {
+        "word": "pé",
+        "meaning": "to be complete"
+      }
+    ]
+  },
+  {
+    "key": "ra",
+    "review": false,
+    "members": [
+      {
+        "word": "rá",
+        "meaning": "to crawl"
+      },
+      {
+        "word": "rà",
+        "meaning": "to buy"
+      }
+    ]
+  },
+  {
+    "key": "ran",
+    "review": false,
+    "members": [
+      {
+        "word": "ràn",
+        "meaning": "to help"
+      },
+      {
+        "word": "rán",
+        "meaning": "to send"
+      }
+    ]
+  },
+  {
+    "key": "ri",
+    "review": false,
+    "members": [
+      {
+        "word": "ri",
+        "meaning": "to bury"
+      },
+      {
+        "word": "rí",
+        "meaning": "to see"
+      }
+    ]
+  },
+  {
+    "key": "ro",
+    "review": false,
+    "members": [
+      {
+        "word": "rọ̀",
+        "meaning": "to be soft"
+      },
+      {
+        "word": "rọ",
+        "meaning": "to pour"
+      }
+    ]
+  },
+  {
+    "key": "se",
+    "review": false,
+    "members": [
+      {
+        "word": "ṣe",
+        "meaning": "to cook / make"
+      },
+      {
+        "word": "ṣẹ̀",
+        "meaning": "to offend"
+      }
+    ]
+  },
+  {
+    "key": "sun",
+    "review": false,
+    "members": [
+      {
+        "word": "sùn",
+        "meaning": "to sleep"
+      },
+      {
+        "word": "sún",
+        "meaning": "to shift / move"
+      }
+    ]
+  },
+  {
+    "key": "tele",
+    "review": false,
+    "members": [
+      {
+        "word": "tẹ̀lé",
+        "meaning": "to follow"
+      },
+      {
+        "word": "tẹ́lẹ̀",
+        "meaning": "before / earlier"
+      }
+    ]
+  },
+  {
+    "key": "to",
+    "review": false,
+    "members": [
+      {
+        "word": "tọ́",
+        "meaning": "to pick / pluck"
+      },
+      {
+        "word": "tọ̀",
+        "meaning": "to urinate"
+      }
+    ]
+  },
+  {
+    "key": "wa",
+    "review": false,
+    "members": [
+      {
+        "word": "wá",
+        "meaning": "to come"
+      },
+      {
+        "word": "wa",
+        "meaning": "to drive"
+      }
+    ]
+  },
+  {
+    "key": "wo",
+    "review": false,
+    "members": [
+      {
+        "word": "wọ́",
+        "meaning": "to drag"
+      },
+      {
+        "word": "wọ",
+        "meaning": "to wear"
+      }
+    ]
+  },
+  {
+    "key": "yo",
+    "review": false,
+    "members": [
+      {
+        "word": "yọ́",
+        "meaning": "to strain / sieve"
+      },
+      {
+        "word": "yọ",
+        "meaning": "to remove"
+      }
+    ]
+  }
+]

@@ -1,0 +1,933 @@
+[
+  {
+    "id": "A01",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Ó ___ sí ọjà lánàá.",
+    "translation": "She ___ to the market yesterday.",
+    "A": {
+      "word": "lọ",
+      "tone": "Mid",
+      "meaning": "to go (went)"
+    },
+    "B": {
+      "word": "lọ̀",
+      "tone": "Low",
+      "meaning": "to grind"
+    },
+    "correct": "A",
+    "explanation": "The blank could take two words that look the same on the page, “lọ” and “lọ̀”. With a mid tone, “lọ” means to go, but with a low tone, “lọ̀” means to grind. Since the sentence is about heading to the market, the word that makes sense is “lọ”, to go. You can grind pepper, but you cannot grind a market."
+  },
+  {
+    "id": "A02",
+    "source": "Adesewa",
+    "contrast_type": "tone+vowel",
+    "sentence": "Bàbá fẹ́ ___ iyàwó tuntun.",
+    "translation": "Father wants to ___ a new wife.",
+    "A": {
+      "word": "gbé",
+      "tone": "High",
+      "meaning": "to marry / take"
+    },
+    "B": {
+      "word": "gbẹ",
+      "tone": "Low",
+      "meaning": "to dry"
+    },
+    "correct": "A",
+    "explanation": "These two words differ in more than one way. “Gbé”, with a high tone and a plain “e”, means to take or to marry. “Gbẹ”, with a low tone and the subdotted “ẹ”, means to dry. So the tone and the vowel quality both set them apart. A father who wants a new wife is taking one, so the answer is “gbé”."
+  },
+  {
+    "id": "A03",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Àwọn ọmọ ___ óúnjẹ sísè.",
+    "translation": "The children ___ cooking.",
+    "A": {
+      "word": "kọ́",
+      "tone": "High",
+      "meaning": "to learn"
+    },
+    "B": {
+      "word": "kọ",
+      "tone": "Mid",
+      "meaning": "to write"
+    },
+    "correct": "A",
+    "explanation": "Here the only thing separating the two words is tone. “kọ́” with a high tone means to learn, while “kọ” with a mid tone means to write. The sentence is about children and cooking, and children learn to cook, so “kọ́” is the word that fits."
+  },
+  {
+    "id": "A04",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Bàbá mi ___ mi lọ sílé ìwé.",
+    "translation": "My father ___ me to school.",
+    "A": {
+      "word": "ràn",
+      "tone": "Low",
+      "meaning": "to help"
+    },
+    "B": {
+      "word": "rán",
+      "tone": "High",
+      "meaning": "to send"
+    },
+    "correct": "B",
+    "explanation": "“Ràn” and “rán” are spelled the same but carry different tones. The low tone “ràn” means to help, and the high tone “rán” means to send. A parent who puts a child on the road to school is sending the child, so the answer is “rán”."
+  },
+  {
+    "id": "A05",
+    "source": "Adesewa",
+    "contrast_type": "tone+vowel",
+    "sentence": "Màmá ___ ọbẹ̀ tó dára púpọ̀.",
+    "translation": "Mother ___ very good soup.",
+    "A": {
+      "word": "ṣe",
+      "tone": "Mid",
+      "meaning": "to cook / make"
+    },
+    "B": {
+      "word": "ṣẹ̀",
+      "tone": "Low",
+      "meaning": "to offend"
+    },
+    "correct": "A",
+    "explanation": "These two differ in both tone and vowel quality. “Ṣe”, mid tone with a plain “e”, means to make or to cook. “Ṣẹ̀”, low tone with the subdotted “ẹ”, means to offend. Since a mother is preparing soup, the word that belongs in the blank is “Ṣe”."
+  },
+  {
+    "id": "A06",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Mo fẹ́ ___ omi tútù.",
+    "translation": "I want to ___ cold water.",
+    "A": {
+      "word": "mu",
+      "tone": "Mid",
+      "meaning": "to drink"
+    },
+    "B": {
+      "word": "mú",
+      "tone": "High",
+      "meaning": "to hold / catch"
+    },
+    "correct": "A",
+    "explanation": "Tone is the only difference here. “mu” with a mid tone means to drink, and “mú” with a high tone means to hold or to catch. Cold water is something you drink, so the answer is “mu”."
+  },
+  {
+    "id": "A09",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Àwọn ọlọ́pàá ___ olè náà.",
+    "translation": "The police ___ the thief.",
+    "A": {
+      "word": "mú",
+      "tone": "High",
+      "meaning": "to catch / arrest"
+    },
+    "B": {
+      "word": "mu",
+      "tone": "Mid",
+      "meaning": "to drink"
+    },
+    "correct": "A",
+    "explanation": "This is the same pair as before, “mú” and “mu”, but the sentence calls for the other one. “mú” with a high tone means to catch or arrest, while “mu” with a mid tone means to drink. The police are dealing with a thief, so they catch him, and the answer is “mú”."
+  },
+  {
+    "id": "A10",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Mo ___ ẹ kúrò nílé wa.",
+    "translation": "I ___ him out of our house.",
+    "A": {
+      "word": "lé",
+      "tone": "High",
+      "meaning": "to chase away"
+    },
+    "B": {
+      "word": "le",
+      "tone": "Mid",
+      "meaning": "to be hard"
+    },
+    "correct": "A",
+    "explanation": "“Lé” and “le” are told apart by tone alone. The high tone “lé” means to drive or chase away, while the mid tone “le” means to be hard or difficult. Sending someone out of the house is chasing them, so “lé” is the right word."
+  },
+  {
+    "id": "A11",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Ó ___ ọkọ rẹ̀ lójú ọ̀nà.",
+    "translation": "She ___ her husband on the road.",
+    "A": {
+      "word": "pàdé",
+      "tone": "Low-High",
+      "meaning": "to meet"
+    },
+    "B": {
+      "word": "padé",
+      "tone": "Mid-High",
+      "meaning": "to close"
+    },
+    "correct": "A",
+    "explanation": "Both words read as “pade”, but the tone on the first syllable changes everything. “pàdé”, low then high, means to meet, while “padé”, mid then high, means to close. Running into your husband on the road is meeting him, so the answer is “pàdé”."
+  },
+  {
+    "id": "A12",
+    "source": "Adesewa",
+    "contrast_type": "tone+vowel",
+    "sentence": "Ọmọ náà ___ ìyá rẹ̀.",
+    "translation": "The child ___ her mother.",
+    "A": {
+      "word": "jọ",
+      "tone": "Low",
+      "meaning": "to resemble"
+    },
+    "B": {
+      "word": "jó",
+      "tone": "High",
+      "meaning": "to dance"
+    },
+    "correct": "A",
+    "explanation": "These two differ in tone and in vowel quality. “jọ”, low tone with the subdotted “ọ”, means to resemble. “jó”, high tone with a plain “o”, means to dance. A child takes after her mother, so the word that fits is “jọ”."
+  },
+  {
+    "id": "A13",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Wọ́n ń ___ ilé tuntun.",
+    "translation": "They are ___ a new house.",
+    "A": {
+      "word": "kọ́",
+      "tone": "High",
+      "meaning": "to build"
+    },
+    "B": {
+      "word": "kọ",
+      "tone": "Mid",
+      "meaning": "to write"
+    },
+    "correct": "A",
+    "explanation": "Only the tone separates these words. “kọ́” with a high tone means to build, and “kọ” with a mid tone means to write. The sentence is about a new house, and a house is built, so the answer is “kọ́”."
+  },
+  {
+    "id": "A14",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Ìwé yìí ___ mí lọ́wọ́ gidigidi.",
+    "translation": "This book ___ me greatly.",
+    "A": {
+      "word": "ràn",
+      "tone": "Low",
+      "meaning": "to help"
+    },
+    "B": {
+      "word": "rán",
+      "tone": "High",
+      "meaning": "to send"
+    },
+    "correct": "A",
+    "explanation": "This is the same pair as in an earlier question, “ràn” and “rán”, but here the sentence points the other way. The low tone “ràn” means to help, the high tone “rán” means to send. A book that does something good for you is helping you, so the answer is “ràn”."
+  },
+  {
+    "id": "A15",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Ó ___ ẹ̀gbọ́n rẹ̀ lọ sí Èkó.",
+    "translation": "She ___ her older sibling to Lagos.",
+    "A": {
+      "word": "tẹ̀lé",
+      "tone": "Low-High",
+      "meaning": "to follow"
+    },
+    "B": {
+      "word": "tẹ́lẹ̀",
+      "tone": "High-Low",
+      "meaning": "before / earlier"
+    },
+    "correct": "A",
+    "explanation": "Both words are built from “tele”, but their tone patterns are mirror images. “tẹ̀lé”, low then high, means to follow. “tẹ́lẹ̀”, high then low, means before or earlier. Going along with a sibling to Lagos is following, so “tẹ̀lé” is the answer."
+  },
+  {
+    "id": "A16",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Mo fẹ́ ___ ohun tó ṣẹlẹ̀.",
+    "translation": "I want to ___ what happened.",
+    "A": {
+      "word": "mọ́",
+      "tone": "High",
+      "meaning": "to clean"
+    },
+    "B": {
+      "word": "mọ",
+      "tone": "Mid",
+      "meaning": "to know"
+    },
+    "correct": "B",
+    "explanation": "Tone alone tells these apart, and both carry the subdotted “ọ”. “mọ́” with a high tone means to clean, while “mọ” with a mid tone means to know. The speaker wants to find out what happened, that is, to know, so the answer is “mọ”."
+  },
+  {
+    "id": "A18",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Màmá ń ___ dòdò lórí iná.",
+    "translation": "Mother is ___ plantain over the fire.",
+    "A": {
+      "word": "dín",
+      "tone": "High",
+      "meaning": "to fry"
+    },
+    "B": {
+      "word": "din",
+      "tone": "Mid",
+      "meaning": "sound / noise"
+    },
+    "correct": "A",
+    "explanation": "The two words look identical apart from tone. “dín” with a high tone means to fry, while “din” with a mid tone has to do with sound or noise. A mother cooking plantain over the fire is frying it, so the answer is “dín”."
+  },
+  {
+    "id": "A20",
+    "source": "Adesewa",
+    "contrast_type": "tone",
+    "sentence": "Àwọn ___ máa ń pàdé ní ọjọ́ Ìṣẹ́gun.",
+    "translation": "The ___ meet on Tuesday.",
+    "A": {
+      "word": "ọ̀rẹ́",
+      "tone": "Low-High",
+      "meaning": "friends"
+    },
+    "B": {
+      "word": "ọrẹ",
+      "tone": "Mid-Mid",
+      "meaning": "gift / offering"
+    },
+    "correct": "A",
+    "explanation": "Both words read as “ore”, but the tones differ. “ọ̀rẹ́”, low then high, means friends, while “ọrẹ”, with even tones, means a gift. People who gather on a set day are friends meeting, so the answer is “ọ̀rẹ́”."
+  },
+  {
+    "id": "B01",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Gbénga ti ń ___ ẹ̀wẹ́dú náà.",
+    "translation": "Gbenga is already ___ the jute leaves.",
+    "A": {
+      "word": "tọ́",
+      "tone": "High",
+      "meaning": "to pick / pluck"
+    },
+    "B": {
+      "word": "tọ̀",
+      "tone": "Low",
+      "meaning": "to urinate"
+    },
+    "correct": "A",
+    "explanation": "Tone is the only difference between these two. “tọ́” with a high tone means to pick or pluck, and “tọ̀” with a low tone means to urinate. Since the sentence is about gathering jute leaves to cook, the answer is “tọ́”."
+  },
+  {
+    "id": "B04",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Bọ̀dé ń ___ ìṣó mọ́ ara igi.",
+    "translation": "Bode is ___ a nail into the wood.",
+    "A": {
+      "word": "kan",
+      "tone": "Mid",
+      "meaning": "to drive in / nail"
+    },
+    "B": {
+      "word": "kán",
+      "tone": "High",
+      "meaning": "to snap / break"
+    },
+    "correct": "A",
+    "explanation": "“Kan” and “kán” are separated by tone alone. The mid tone “kan” means to drive in or to nail, while the high tone “kán” means to snap. Putting a nail into wood is driving it in, so the answer is “kan”."
+  },
+  {
+    "id": "B05",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Mo ti ___ omi orí ìrẹsì náà kúrò.",
+    "translation": "I have ___ the water off the rice.",
+    "A": {
+      "word": "yọ́",
+      "tone": "High",
+      "meaning": "to strain / sieve"
+    },
+    "B": {
+      "word": "yọ",
+      "tone": "Mid",
+      "meaning": "to remove"
+    },
+    "correct": "A",
+    "explanation": "Only the tone changes here. “yọ́” with a high tone means to strain, while “yọ” with a mid tone means to remove. Pouring the water off rice is straining it, so the answer is “yọ́”."
+  },
+  {
+    "id": "B06",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Tolú ___ ògùn mọ́lẹ̀ sí abẹ́ igi.",
+    "translation": "Tolu ___ a charm under the tree.",
+    "A": {
+      "word": "ri",
+      "tone": "Mid",
+      "meaning": "to bury"
+    },
+    "B": {
+      "word": "rí",
+      "tone": "High",
+      "meaning": "to see"
+    },
+    "correct": "A",
+    "explanation": "These two differ in tone alone. “ri” with a mid tone means to bury, while “rí” with a high tone means to see. Placing a charm beneath the ground is burying it, so the answer is “ri”."
+  },
+  {
+    "id": "B07",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Ìtùnú ti ___ ẹ̀wù rẹ̀ bí a ti dé ilé.",
+    "translation": "Itunu has ___ her clothes as soon as we got home.",
+    "A": {
+      "word": "bọ́",
+      "tone": "High",
+      "meaning": "to take off"
+    },
+    "B": {
+      "word": "bọ",
+      "tone": "Mid",
+      "meaning": "to worship"
+    },
+    "correct": "A",
+    "explanation": "Tone tells these apart. “bọ́” with a high tone means to take off clothing, while “bọ” with a mid tone means to worship. Someone removing her clothes on getting home is taking them off, so the answer is “bọ́”."
+  },
+  {
+    "id": "B08",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Ọmọ ọdún kan náà ti ń ___.",
+    "translation": "The one-year-old child is already ___.",
+    "A": {
+      "word": "rá",
+      "tone": "High",
+      "meaning": "to crawl"
+    },
+    "B": {
+      "word": "rà",
+      "tone": "Low",
+      "meaning": "to buy"
+    },
+    "correct": "A",
+    "explanation": "“Rá” and “rà” are the same letters with different tones. The high tone “rá” means to crawl, and the low tone “rà” means to buy. A child of only one year crawls, so the answer is “rá”."
+  },
+  {
+    "id": "B09",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Ike ńlá yẹn ti ___.",
+    "translation": "That big bucket has ___.",
+    "A": {
+      "word": "fọ́",
+      "tone": "High",
+      "meaning": "to break"
+    },
+    "B": {
+      "word": "fọ",
+      "tone": "Mid",
+      "meaning": "to wash"
+    },
+    "correct": "A",
+    "explanation": "Tone is the single difference here. “fọ́” with a high tone means to break, while “fọ” with a mid tone means to wash. A bucket that has met an accident has broken, so the answer is “fọ́”."
+  },
+  {
+    "id": "B10",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Bọ́sẹ̀ ___ àga náà sí ẹ̀gbẹ́ kan kí ó lè kọjá.",
+    "translation": "Bose ___ the chair aside so she could pass.",
+    "A": {
+      "word": "sùn",
+      "tone": "Low",
+      "meaning": "to sleep"
+    },
+    "B": {
+      "word": "sún",
+      "tone": "High",
+      "meaning": "to shift / move"
+    },
+    "correct": "B",
+    "explanation": "These two are told apart by tone. “sùn” with a low tone means to sleep, while “sún” with a high tone means to shift or move along. Pushing a chair aside is shifting it, so the answer is “sún”."
+  },
+  {
+    "id": "B11",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Àwọn akẹ́kọ̀ọ́ náà ń ___ nítorí iṣẹ́ àmúrelé náà ti pọ̀ jù.",
+    "translation": "The students are ___ because the assignment is too much.",
+    "A": {
+      "word": "kun",
+      "tone": "Mid",
+      "meaning": "to paint"
+    },
+    "B": {
+      "word": "kùn",
+      "tone": "Low",
+      "meaning": "to grumble"
+    },
+    "correct": "B",
+    "explanation": "Only the tone separates these words. “kun” with a mid tone means to paint, while “kùn” with a low tone means to grumble. Students faced with too much work are grumbling, so the answer is “kùn”."
+  },
+  {
+    "id": "B12",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Túndé ni ó máa ___ ọkọ̀.",
+    "translation": "Tunde is the one who will ___ the car.",
+    "A": {
+      "word": "wá",
+      "tone": "High",
+      "meaning": "to come"
+    },
+    "B": {
+      "word": "wa",
+      "tone": "Mid",
+      "meaning": "to drive"
+    },
+    "correct": "B",
+    "explanation": "“Wá” and “wa” differ by tone alone. The high tone “wá” means to come, while the mid tone “wa” means to drive. The sentence is about handling a car, so the answer is “wa”."
+  },
+  {
+    "id": "B13",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Bùkọ́lá ___ aṣọ sọ́rùn.",
+    "translation": "Bukola ___ cloth around her neck.",
+    "A": {
+      "word": "wọ́",
+      "tone": "High",
+      "meaning": "to drag"
+    },
+    "B": {
+      "word": "wọ",
+      "tone": "Mid",
+      "meaning": "to wear"
+    },
+    "correct": "B",
+    "explanation": "Tone is the only thing that changes here. “wọ́” with a high tone means to drag, while “wọ” with a mid tone means to wear. Cloth placed around the neck is being worn, so the answer is “wọ”."
+  },
+  {
+    "id": "B14",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Dẹ́ọlá ń ___ ilẹ̀ pẹ̀lú ọwọ̀.",
+    "translation": "Deola is ___ the floor with a broom.",
+    "A": {
+      "word": "gbà",
+      "tone": "Low",
+      "meaning": "to take / receive"
+    },
+    "B": {
+      "word": "gbá",
+      "tone": "High",
+      "meaning": "to sweep"
+    },
+    "correct": "B",
+    "explanation": "These two words are separated by tone. “gbà” with a low tone means to take or receive, while “gbá” with a high tone means to sweep. Working the floor with a broom is sweeping, so the answer is “gbá”."
+  },
+  {
+    "id": "B15",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Ẹ̀fọn ___ Dọ̀tun lápá.",
+    "translation": "A mosquito ___ Dotun on the arm.",
+    "A": {
+      "word": "jẹ́",
+      "tone": "High",
+      "meaning": "to be / answer to"
+    },
+    "B": {
+      "word": "jẹ",
+      "tone": "Mid",
+      "meaning": "to bite / eat"
+    },
+    "correct": "B",
+    "explanation": "Tone tells these apart. “jẹ́” with a high tone means to answer to a name, while “jẹ” with a mid tone means to bite or eat. A mosquito on the arm bites, so the answer is “jẹ”."
+  },
+  {
+    "id": "B16",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Mọ́pẹ́ ló ___ igi lọ láti bá wa ká màngòrò.",
+    "translation": "It was Mope who ___ the tree to help us pluck mangoes.",
+    "A": {
+      "word": "gún",
+      "tone": "High",
+      "meaning": "to pound"
+    },
+    "B": {
+      "word": "gun",
+      "tone": "Mid",
+      "meaning": "to climb"
+    },
+    "correct": "B",
+    "explanation": "“Gún” and “gun” are the same letters with different tones. The high tone “gún” means to pound, and the mid tone “gun” means to climb. To reach mangoes you climb the tree, so the answer is “gun”."
+  },
+  {
+    "id": "B17",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Sọlá àti Àlàó ń ___.",
+    "translation": "Sola and Alao are ___.",
+    "A": {
+      "word": "já",
+      "tone": "High",
+      "meaning": "to pluck / snap"
+    },
+    "B": {
+      "word": "jà",
+      "tone": "Low",
+      "meaning": "to fight"
+    },
+    "correct": "B",
+    "explanation": "Only the tone differs here. “já” with a high tone means to pluck, while “jà” with a low tone means to fight. Two people described together in this way are fighting, so the answer is “jà”."
+  },
+  {
+    "id": "B18",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Bíọ́lá ń ___ òróró sínú ìgò.",
+    "translation": "Biola is ___ oil into the bottle.",
+    "A": {
+      "word": "rọ̀",
+      "tone": "Low",
+      "meaning": "to be soft"
+    },
+    "B": {
+      "word": "rọ",
+      "tone": "Mid",
+      "meaning": "to pour"
+    },
+    "correct": "B",
+    "explanation": "Tone is the single difference. “rọ̀” with a low tone means to be soft, while “rọ” with a mid tone means to pour. Putting oil into a bottle is pouring it, so the answer is “rọ”."
+  },
+  {
+    "id": "B19",
+    "source": "Blessing",
+    "contrast_type": "tone",
+    "sentence": "Àníkẹ́ ń fi ṣíbí ___ ìkòkò.",
+    "translation": "Anike is ___ the pot with a spoon.",
+    "A": {
+      "word": "fa",
+      "tone": "Mid",
+      "meaning": "to drag"
+    },
+    "B": {
+      "word": "fá",
+      "tone": "High",
+      "meaning": "to scrape"
+    },
+    "correct": "B",
+    "explanation": "These two are told apart by tone alone. “fa” with a mid tone means to drag, while “fá” with a high tone means to scrape. Using a spoon against the pot is scraping it, so the answer is “fá”."
+  },
+  {
+    "id": "S01",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "___ mi dánà fún mi lánàá.",
+    "translation": "My ___ cooked for me yesterday.",
+    "A": {
+      "word": "aya",
+      "tone": "Mid-Mid",
+      "meaning": "wife"
+    },
+    "B": {
+      "word": "àyà",
+      "tone": "Low-Low",
+      "meaning": "chest"
+    },
+    "correct": "A",
+    "explanation": "Both words read as “aya”, but the tone on the first syllable differs. “aya”, with even tones, means wife, while “àyà”, with a low first tone, means chest. The one who cooks for the family here is a wife, so the answer is “aya”."
+  },
+  {
+    "id": "S02",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "___ ń pa mi.",
+    "translation": "___ is killing me (I am very hungry).",
+    "A": {
+      "word": "ebi",
+      "tone": "Mid",
+      "meaning": "hunger"
+    },
+    "B": {
+      "word": "ẹbí",
+      "tone": "High",
+      "meaning": "family / relative"
+    },
+    "correct": "A",
+    "explanation": "These two differ in both tone and vowel quality. “ebi”, with a plain “e”, means hunger. “ẹbí”, with the subdotted “ẹ” and a high tone, means family. To say something is killing you in this way is to say you are hungry, so the answer is “ebi”."
+  },
+  {
+    "id": "S03",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "Mo ń lọ sí ___ láti gbin àgbàdo.",
+    "translation": "I am going to the ___ to plant maize.",
+    "A": {
+      "word": "oko",
+      "tone": "Mid",
+      "meaning": "farm"
+    },
+    "B": {
+      "word": "ọkọ́",
+      "tone": "High",
+      "meaning": "hoe"
+    },
+    "correct": "A",
+    "explanation": "“Oko” and “ọkọ́” differ in tone and in vowel quality. “oko”, with plain vowels, means farm, while “ọkọ́”, with subdotted vowels and a high ending, means hoe. You go to a farm to plant maize, so the answer is “oko”."
+  },
+  {
+    "id": "S04",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "Eran ___ wọ́n ń tà lọ́jà.",
+    "translation": "___ meat is being sold in the market.",
+    "A": {
+      "word": "àgbo",
+      "tone": "Mid",
+      "meaning": "herbal medicine"
+    },
+    "B": {
+      "word": "àgbò",
+      "tone": "Low",
+      "meaning": "ram"
+    },
+    "correct": "B",
+    "explanation": "Both words read as “agbo”, and only the tone of the last syllable separates them. “àgbo” means a herbal medicine, while “àgbò”, ending on a low tone, means a ram. Meat sold in a market comes from an animal, so the answer is “àgbò”."
+  },
+  {
+    "id": "S05",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "Wọ́n kọ́ ___ tuntun ní ẹ̀gbẹ́ ìlú.",
+    "translation": "They built a new ___ at the edge of town.",
+    "A": {
+      "word": "ilé",
+      "tone": "High",
+      "meaning": "house"
+    },
+    "B": {
+      "word": "ilẹ̀",
+      "tone": "Low",
+      "meaning": "ground / land"
+    },
+    "correct": "A",
+    "explanation": "These two differ in tone and in vowel quality. “ilé”, with a plain “e” and a high tone, means house, while “ilẹ̀”, with the subdotted “ẹ” and a low tone, means ground. The sentence is about what was built, and you build a house, so the answer is “ilé”."
+  },
+  {
+    "id": "S06",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "Ọkọ rẹ̀ ń yan ___.",
+    "translation": "Her husband is keeping a ___.",
+    "A": {
+      "word": "alẹ́",
+      "tone": "High",
+      "meaning": "night"
+    },
+    "B": {
+      "word": "àlè",
+      "tone": "Low",
+      "meaning": "secret lover"
+    },
+    "correct": "B",
+    "explanation": "These two words differ in both tone and vowel quality. “alẹ́”, with the subdotted “ẹ”, means night, while “àlè”, with a plain “e”, means a secret lover. The sentence says a husband has taken one, and you do not take a night, so the answer is “àlè”."
+  },
+  {
+    "id": "S07",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "Ta ló ___ orúkọ ọkùnrin yẹn?",
+    "translation": "Who ___ that man's name?",
+    "A": {
+      "word": "mọ",
+      "tone": "Mid",
+      "meaning": "to know"
+    },
+    "B": {
+      "word": "mo",
+      "tone": "Mid",
+      "meaning": "I / me"
+    },
+    "correct": "A",
+    "explanation": "This one carries a small lesson. On its own, the word for to know is “mọ̀” with a low tone, but inside this sentence the tone rises and it is said as “mọ” with a mid tone. Tones often shift like this when words join together in a sentence, which is different from how a word sounds on its own. The other choice, “mo” without a subdot, means I or me. Since the question asks who knows the man’s name, the answer is “mọ”."
+  },
+  {
+    "id": "S08",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "Mo ___ orúkọ rẹ̀ sínú ìwé.",
+    "translation": "I ___ his name in the book.",
+    "A": {
+      "word": "kọ",
+      "tone": "Mid",
+      "meaning": "to write"
+    },
+    "B": {
+      "word": "kọ̀",
+      "tone": "Low",
+      "meaning": "to refuse"
+    },
+    "correct": "A",
+    "explanation": "Tone is the only difference between these two. “kọ” with a mid tone means to write, while “kọ̀” with a low tone means to refuse. Putting a name down in a book is writing it, so the answer is “kọ”."
+  },
+  {
+    "id": "S09",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "___ ń rọ̀ lánàá ní ọ̀sán.",
+    "translation": "___ was falling yesterday afternoon.",
+    "A": {
+      "word": "òjò",
+      "tone": "Mid",
+      "meaning": "rain"
+    },
+    "B": {
+      "word": "ọjọ́",
+      "tone": "High",
+      "meaning": "day"
+    },
+    "correct": "A",
+    "explanation": "“Òjò” and “ọjọ́” differ in tone and in vowel quality. “òjò”, with plain vowels, means rain, while “ọjọ́”, with subdotted vowels, means day. Something that falls from the sky is rain, so the answer is “òjò”."
+  },
+  {
+    "id": "S11",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "Bàbá mi ___ omi fún mi.",
+    "translation": "My father ___ water for me.",
+    "A": {
+      "word": "mu",
+      "tone": "Mid",
+      "meaning": "to drink"
+    },
+    "B": {
+      "word": "mú",
+      "tone": "High",
+      "meaning": "to bring / take"
+    },
+    "correct": "B",
+    "explanation": "Tone alone separates these words. “mu” with a mid tone means to drink, while “mú” with a high tone means to bring. A father who provides water for his child is bringing it, so the answer is “mú”."
+  },
+  {
+    "id": "S12",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "Àwọn ọmọ ___ sí ilé-ìwé.",
+    "translation": "The children ___ to school.",
+    "A": {
+      "word": "lọ",
+      "tone": "Mid",
+      "meaning": "to go"
+    },
+    "B": {
+      "word": "lo",
+      "tone": "High",
+      "meaning": "to use"
+    },
+    "correct": "A",
+    "explanation": "These two differ in tone and in vowel quality. “lọ”, with the subdotted “ọ”, means to go, while “lo”, with a plain “o”, means to use. Children on their way to school are going, so the answer is “lọ”."
+  },
+  {
+    "id": "S13",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "Ọmọ náà ń ___ lórí ilẹ̀.",
+    "translation": "The baby is ___ on the floor.",
+    "A": {
+      "word": "rá",
+      "tone": "High",
+      "meaning": "to crawl"
+    },
+    "B": {
+      "word": "rà",
+      "tone": "Low",
+      "meaning": "to buy"
+    },
+    "correct": "A",
+    "explanation": "“Rá” and “rà” are the same letters with different tones. The high tone “rá” means to crawl, while the low tone “rà” means to buy. A baby moving along the floor is crawling, so the answer is “rá”."
+  },
+  {
+    "id": "S15",
+    "source": "Siju",
+    "contrast_type": "tone+vowel",
+    "sentence": "Ó ___ aṣọ rẹ̀ nínú odò.",
+    "translation": "She ___ her clothes in the river.",
+    "A": {
+      "word": "fọ",
+      "tone": "Mid",
+      "meaning": "to wash"
+    },
+    "B": {
+      "word": "fò",
+      "tone": "Low",
+      "meaning": "to fly / jump"
+    },
+    "correct": "A",
+    "explanation": "These two differ in tone and in vowel quality. “fọ”, with the subdotted “ọ”, means to wash, while “fò”, with a plain “o”, means to fly or jump. Clothes handled in a river are being washed, so the answer is “fọ”."
+  },
+  {
+    "id": "S16",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "___ mi nígbà tí o bá dé ilé.",
+    "translation": "___ me when you get home.",
+    "A": {
+      "word": "pè",
+      "tone": "Low",
+      "meaning": "to call"
+    },
+    "B": {
+      "word": "pé",
+      "tone": "High",
+      "meaning": "to be complete"
+    },
+    "correct": "A",
+    "explanation": "Tone is the only difference here. “pè” with a low tone means to call, while “pé” with a high tone means to be complete. Asking someone to reach you when they get home is calling them, so the answer is “pè”."
+  },
+  {
+    "id": "S17",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "Ó ___ ilé ní aago mẹ́wàá.",
+    "translation": "He ___ home at ten o'clock.",
+    "A": {
+      "word": "dé",
+      "tone": "High",
+      "meaning": "to arrive"
+    },
+    "B": {
+      "word": "dè",
+      "tone": "Low",
+      "meaning": "to tie / bind"
+    },
+    "correct": "A",
+    "explanation": "“Dé” and “dè” are told apart by tone. The high tone “dé” means to arrive, while the low tone “dè” means to tie. Getting home at ten o’clock is arriving, so the answer is “dé”."
+  },
+  {
+    "id": "S18",
+    "source": "Siju",
+    "contrast_type": "tone",
+    "sentence": "___ wo ni o bí ọmọ?",
+    "translation": "At what ___ did she give birth?",
+    "A": {
+      "word": "ìgbà",
+      "tone": "Low",
+      "meaning": "time / season"
+    },
+    "B": {
+      "word": "igba",
+      "tone": "Mid",
+      "meaning": "calabash / two hundred"
+    },
+    "correct": "A",
+    "explanation": "Both words read as “igba”, but their tones differ. “ìgbà”, with a low first tone, means time, while “igba”, with even tones, means a calabash. The question asks about when something happened, so the answer is “ìgbà”."
+  }
+]
