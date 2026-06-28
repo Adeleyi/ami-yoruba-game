@@ -1,308 +1,203 @@
 """
-Àmì — a Yorùbá tone game (Streamlit).
+Àmì — Yorùbá tone learning game.
 
-Streamlit re-runs this file top to bottom on every click, so anything that must
-survive a click (current screen, score, current question, hints left) lives in
-st.session_state. No model, no training: the game is questions.json plus the
-logic below.
+This Streamlit app serves the game as a single self-contained page.
+The whole game (the arrangement, the cards, the lessons) lives in the HTML
+below; Streamlit hosts it and gives it a public web address.
 
-Screens routed by st.session_state.screen:
-home, play, results, learn, tonemarks, vowel, families, howto
+To change the game name, edit GAME_NAME.
+The questions and word families are read from the two JSON files, so to add or
+edit content you only touch questions.json and families.json.
 """
 
 import json
-import random
 import streamlit as st
+import streamlit.components.v1 as components
 
-# ---------------------------------------------------------------- settings
-GAME_NAME = "\u00c0m\u00ec"                 # change here when the team picks a name
-ROUND_SIZE = 10                             # questions per round
-POINTS_CORRECT = 10
-HINTS_PER_ROUND = 3
-TEAM = ["Esther", "Adesewa", "Blessing", "Siju", "(member 5)"]   # used in the report
+# ---- settings you can edit -------------------------------------------------
+GAME_NAME = "Àmì"        # the title shown on the home screen
+ROUND_SIZE = 10           # questions per round
+POINTS_CORRECT = 10       # points per correct answer
+HINTS_PER_ROUND = 3       # hints allowed per round
+# ---------------------------------------------------------------------------
 
-@st.cache_data
-def load(path):
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+st.set_page_config(page_title=GAME_NAME, page_icon="🎵", layout="centered")
 
-QUESTIONS = load("questions.json")
-FAMILIES = load("families.json")
-
-# result messages: a pool per score band, picked at random (English only)
-MESSAGES = {
-    "perfect": ["Perfect round. You read every tone correctly. You are a champion.",
-                "Flawless, ten out of ten. Your ear for tone is excellent.",
-                "A clean sweep. Every single answer was right."],
-    "strong":  ["Very strong. Just a little more for a perfect score.",
-                "Excellent work. You missed only a few.",
-                "Almost perfect. Your tone reading is sharp."],
-    "middle":  ["Good work. You are getting the hang of the tones.",
-                "Solid round. Keep practising and the score will climb.",
-                "Nicely done. A few more rounds will sharpen it."],
-    "low":     ["You are getting there. Try another round.",
-                "A fair start. Visit Learn, then play again.",
-                "Keep going. Each round will make the tones clearer."],
-    "vlow":    ["Do not worry, tones take practice. Visit Learn, then try again.",
-                "Tone is tricky at first. Spend a moment in Learn and come back.",
-                "A tough round. The Learn section will help, then give it another go."],
-}
-
-# ---------------------------------------------------------------- styling
-st.set_page_config(page_title=GAME_NAME, page_icon="\u25CC\u0301", layout="centered")
+# hide Streamlit's own chrome so only the game shows
 st.markdown("""
 <style>
-:root{ --indigo:#1d2b53; --indigo2:#2c3e6b; --gold:#c8902a; --paper:#faf7f2;
-       --good:#2e7d5b; --bad:#b23a48; --ink:#222838; }
-.stApp{ background:var(--paper); }
-.block-container{ max-width:680px; padding-top:2.2rem; }
-.home{ text-align:center; margin:2.2rem 0 1.4rem; }
-.title{ color:var(--indigo); font-weight:800; font-size:4rem; line-height:1;
-       letter-spacing:-1px; margin:0; }
-.marks{ font-size:2.6rem; letter-spacing:.6rem; color:var(--indigo); margin:.5rem 0 0;}
-.marks b{ color:var(--gold); }
-.h2{ color:var(--indigo); font-weight:800; font-size:1.7rem; margin:.2rem 0 .7rem; }
-.sentence{ background:#fff; border:1px solid #ece5d8; border-left:5px solid var(--gold);
-       border-radius:10px; padding:18px 20px; font-size:1.5rem; color:var(--ink); margin:.3rem 0; }
-.hint{ color:#6b7280; font-size:1.02rem; margin:8px 2px 14px; }
-.word{ font-size:2rem; font-weight:800; color:var(--indigo); text-align:center; }
-.feed-good{ background:#eaf5ef; border-left:5px solid var(--good); color:#1c5a40;
-       padding:14px 16px; border-radius:10px; font-size:1.02rem; }
-.feed-bad{ background:#fbeef0; border-left:5px solid var(--bad); color:#7c2531;
-       padding:14px 16px; border-radius:10px; font-size:1.02rem; }
-.card{ background:#fff; border:1px solid #ece5d8; border-radius:10px; padding:12px 16px;
-       margin-bottom:10px; }
-.fam{ font-weight:800; color:var(--gold); font-size:1.15rem; }
-.muted{ color:#6b7280; }
-.lesson{ background:#fff; border:1px solid #ece5d8; border-radius:10px; padding:4px 20px; }
-div.stButton>button{ width:100%; border-radius:10px; font-weight:700;
-       border:1px solid var(--indigo); background:var(--indigo); color:#fff; padding:.55rem; }
-div.stButton>button:hover{ background:var(--indigo2); border-color:var(--indigo2); color:#fff; }
-div.stButton>button:disabled{ opacity:.5; }
+#MainMenu, header, footer {visibility:hidden;}
+.block-container{padding:0 !important; max-width:720px !important;}
+[data-testid="stAppViewContainer"]{background:#faf7f2;}
 </style>
 """, unsafe_allow_html=True)
 
-def go(screen):
-    st.session_state.screen = screen
+QUESTIONS = json.load(open("questions.json", encoding="utf-8"))
+FAMILIES = json.load(open("families.json", encoding="utf-8"))
 
-if "screen" not in st.session_state:
-    st.session_state.screen = "home"
-if "seen" not in st.session_state:
-    st.session_state.seen = set()
+GAME_HTML = r'''<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>AMI</title>
+<style>
+:root{--indigo:#1d2b53;--indigo2:#2c3e6b;--gold:#c8902a;--paper:#faf7f2;
+--good:#2e7d5b;--bad:#b23a48;--ink:#222838;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:680px;margin:0 auto;padding:24px 18px 70px;}
+button{font-family:inherit;cursor:pointer;}
+.btn{width:100%;border:1px solid var(--indigo);background:var(--indigo);color:#fff;
+font-weight:700;border-radius:10px;padding:13px;font-size:1rem;margin-top:10px;}
+.btn:hover{background:var(--indigo2);}
+.btn.ghost{background:#fff;color:var(--indigo);}
+.btn.gold{background:var(--gold);border-color:var(--gold);}
+.btn:disabled{opacity:.45;cursor:default;}
+.row{display:flex;gap:10px;}
+.home{text-align:center;margin:3rem 0 1.6rem;}
+.title{color:var(--indigo);font-weight:800;font-size:4.2rem;line-height:1;letter-spacing:-1px;margin:0;}
+.marks{font-size:2.8rem;letter-spacing:.65rem;color:var(--indigo);margin:.5rem 0 0;}
+.marks b{color:var(--gold);}
+.h2{color:var(--indigo);font-weight:800;font-size:1.7rem;margin:.2rem 0 .7rem;}
+.lead{color:#555;margin:0 0 8px;}
+.meta{display:flex;justify-content:space-between;color:#6b7280;font-size:.85rem;margin:14px 0 6px;}
+.bar{height:6px;background:#eadfce;border-radius:6px;overflow:hidden;margin-bottom:14px;}
+.bar>i{display:block;height:100%;background:var(--gold);transition:width .3s;}
+.sentence{background:#fff;border:1px solid #ece5d8;border-left:5px solid var(--gold);
+border-radius:10px;padding:18px 20px;font-size:1.5rem;margin:.2rem 0;}
+.hint{color:#6b7280;font-size:1.02rem;margin:8px 2px 16px;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card{background:#fff;border:2px solid #e6ded0;border-radius:12px;padding:18px 14px;text-align:center;cursor:pointer;transition:.15s;}
+.card:hover{border-color:var(--indigo);}
+.card.good{border-color:var(--good);background:#eaf5ef;}
+.card.bad{border-color:var(--bad);background:#fbeef0;}
+.card.lock{cursor:default;}
+.word{font-size:2rem;font-weight:800;color:var(--indigo);}
+.mean{color:#6b7280;font-size:.92rem;margin-top:4px;min-height:1.1em;}
+.hintnote{color:#6b7280;font-size:.9rem;margin-top:10px;}
+.feed{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:1.02rem;}
+.feed.good{background:#eaf5ef;border-left:5px solid var(--good);color:#1c5a40;}
+.feed.bad{background:#fbeef0;border-left:5px solid var(--bad);color:#7c2531;}
+.fcard{background:#fff;border:1px solid #ece5d8;border-radius:10px;padding:12px 16px;margin-bottom:10px;}
+.fam{font-weight:800;color:var(--gold);font-size:1.15rem;}
+.muted{color:#6b7280;}
+.lesson{background:#fff;border:1px solid #ece5d8;border-radius:10px;padding:6px 20px;line-height:1.6;}
+.lesson li{margin:6px 0;}
+</style></head><body><div class="wrap"><div id="app"></div></div>
+<script>
+const QUESTIONS=__Q__, FAMILIES=__F__;
+const NAME="__NAME__", ROUND=__ROUND__, PTS=__PTS__, HINTS=__HINTS__;
+const MSG={
+perfect:["Perfect round. You read every tone correctly. You are a champion.","Flawless, ten out of ten. Your ear for tone is excellent.","A clean sweep. Every single answer was right."],
+strong:["Very strong. Just a little more for a perfect score.","Excellent work. You missed only a few.","Almost perfect. Your tone reading is sharp."],
+middle:["Good work. You are getting the hang of the tones.","Solid round. Keep practising and the score will climb.","Nicely done. A few more rounds will sharpen it."],
+low:["You are getting there. Try another round.","A fair start. Visit Learn, then play again.","Keep going. Each round will make the tones clearer."],
+vlow:["Do not worry, tones take practice. Visit Learn, then try again.","Tone is tricky at first. Spend a moment in Learn and come back.","A tough round. The Learn section will help, then give it another go."]};
+let seen=new Set(), rd=[], i=0, points=0, streak=0, hintsLeft=HINTS;
+const app=()=>document.getElementById("app");
+const pickOne=a=>a[Math.random()*a.length|0];
+function shuffle(a){for(let k=a.length-1;k>0;k--){const j=Math.random()*(k+1)|0;[a[k],a[j]]=[a[j],a[k]];}return a;}
+function sample(a,n){return shuffle([...a]).slice(0,n);}
 
-# ---------------------------------------------------------------- round logic
-def new_round():
-    unseen = [q for q in QUESTIONS if q["id"] not in st.session_state.seen]
-    if len(unseen) < ROUND_SIZE:
-        st.session_state.seen = set()
-        unseen = list(QUESTIONS)
-    picks = random.sample(unseen, ROUND_SIZE)
-    for q in picks:
-        st.session_state.seen.add(q["id"])
-    st.session_state.round = picks
-    st.session_state.r_idx = 0
-    st.session_state.points = 0
-    st.session_state.streak = 0
-    st.session_state.hints_left = HINTS_PER_ROUND
-    # each question keeps its own memory so the player can move back and forth
-    # and review answered questions without losing anything.
-    st.session_state.rec = [{"answered": False, "picked": None, "hint": False}
-                            for _ in picks]
-    # lock a random left/right order for each question once (no rerun reshuffle,
-    # and not biased by the answer-key skew).
-    st.session_state.sides = [random.choice([["A", "B"], ["B", "A"]]) for _ in picks]
-    go("play")
+function newRound(){let un=QUESTIONS.filter(q=>!seen.has(q.id));
+if(un.length<ROUND){seen=new Set();un=[...QUESTIONS];}
+rd=sample(un,ROUND);
+rd.forEach(q=>{seen.add(q.id);q._sides=Math.random()<.5?["A","B"]:["B","A"];
+q._answered=false;q._picked=null;q._hint=false;});
+i=0;points=0;streak=0;hintsLeft=HINTS;play();}
 
-def goto(idx):
-    st.session_state.r_idx = max(0, min(idx, len(st.session_state.round) - 1))
+function play(){const q=rd[i],N=rd.length,sides=q._sides;
+const show=q._hint||q._answered, allAns=rd.every(x=>x._answered);
+function card(s){const o=q[s];let c="card";
+if(q._answered){c+=" lock";if(s===q.correct)c+=" good";else if(s===q._picked)c+=" bad";}
+return `<div class="${c}" data-s="${s}"><div class="word">${o.word}</div><div class="mean">${show?o.meaning:""}</div></div>`;}
+let feed="",hintArea="";
+if(q._answered){const ok=q._picked===q.correct;
+feed=`<div class="feed ${ok?'good':'bad'}">${ok?'\u2713 Correct. ':'\u2717 Not quite. The answer is <b>'+q[q.correct].word+'</b>. '}${q.explanation}</div>`;}
+else if(q._hint){hintArea=`<div class="hintnote">Hints left: ${hintsLeft}</div>`;}
+else{hintArea=`<button class="btn ghost" onclick="useHint()" ${hintsLeft===0?'disabled':''}>${hintsLeft===0?'No hints left':'Hint'} (${hintsLeft} left)</button>`;}
+const nav=`<div class="row">
+<button class="btn ghost" onclick="prev()" ${i===0?'disabled':''}>\u2190 Previous</button>
+<button class="btn ghost" onclick="next()" ${i===N-1?'disabled':''}>Next \u2192</button></div>`;
+const finish=allAns?`<button class="btn gold" onclick="results()">See your score</button>`:"";
+app().innerHTML=`
+<div class="meta"><span>Question ${i+1} of ${N} \u00b7 ${points} pts${streak?' \u00b7 streak '+streak:''}</span>
+<a href="#" onclick="home();return false" class="muted">Quit</a></div>
+<div class="bar"><i style="width:${(i+1)/N*100}%"></i></div>
+<div class="sentence">${q.sentence}</div><div class="hint">\uD83D\uDCAC ${q.translation}</div>
+<div class="opts">${card(sides[0])}${card(sides[1])}</div>${feed}${hintArea}${nav}${finish}`;
+if(!q._answered){app().querySelectorAll(".card").forEach(c=>c.onclick=()=>choose(c.dataset.s));}}
 
-# ================================================================ HOME
-def home():
-    st.markdown(f'<div class="home"><div class="title">{GAME_NAME}</div>'
-                f'<div class="marks">\u00e0 <b>a</b> \u00e1</div></div>', unsafe_allow_html=True)
-    if st.button("Play"):
-        new_round(); st.rerun()
-    c1, c2 = st.columns(2)
-    if c1.button("Learn"): go("learn"); st.rerun()
-    if c2.button("How to play"): go("howto"); st.rerun()
+function choose(s){const q=rd[i];if(q._answered)return;q._answered=true;q._picked=s;
+if(s===q.correct){points+=PTS;streak++;}else{streak=0;}play();}
+function useHint(){const q=rd[i];if(q._hint||q._answered||hintsLeft===0)return;q._hint=true;hintsLeft--;play();}
+function prev(){if(i>0){i--;play();}}
+function next(){if(i<rd.length-1){i++;play();}}
 
-# ================================================================ PLAY
-def play():
-    rd = st.session_state.round
-    i = st.session_state.r_idx
-    q = rd[i]
-    rec = st.session_state.rec[i]
-    n = len(rd)
-    all_answered = all(r["answered"] for r in st.session_state.rec)
+function results(){const correct=rd.filter(x=>x._answered&&x._picked===x.correct).length;
+let b=correct===ROUND?"perfect":correct>=8?"strong":correct>=6?"middle":correct>=4?"low":"vlow";
+app().innerHTML=`<div class="h2">Round complete</div>
+<div class="sentence">You got <b>${correct} / ${ROUND}</b> correct &nbsp;\u00b7&nbsp; ${points} points
+<br><span class="muted">${pickOne(MSG[b])}</span></div>
+<button class="btn" onclick="newRound()">Play again</button>
+<div class="row"><button class="btn ghost" onclick="learn()">Learn</button>
+<button class="btn ghost" onclick="home()">Home</button></div>`;}
 
-    top = st.columns([3, 1])
-    streak_txt = f"   \u00b7   streak {st.session_state.streak}" if st.session_state.streak else ""
-    top[0].caption(f"Question {i+1} of {n}   \u00b7   {st.session_state.points} pts{streak_txt}")
-    if top[1].button("Quit", key="quit"):
-        go("home"); st.rerun()
-    st.progress((i + 1) / n)
+function home(){app().innerHTML=`
+<div class="home"><div class="title">${NAME}</div><div class="marks">\u00e0 <b>a</b> \u00e1</div></div>
+<button class="btn" onclick="newRound()">Play</button>
+<div class="row"><button class="btn ghost" onclick="learn()">Learn</button>
+<button class="btn ghost" onclick="howto()">How to play</button></div>`;}
 
-    st.markdown(f'<div class="sentence">{q["sentence"]}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="hint">\U0001F4AC {q["translation"]}</div>', unsafe_allow_html=True)
+function learn(){app().innerHTML=`<div class="h2">Learn</div>
+<button class="btn" onclick="tonemarks()">Tone marks (the three tones)</button>
+<button class="btn" onclick="vowel()">Vowel quality (the subdot)</button>
+<button class="btn" onclick="families()">Word families</button>
+<button class="btn ghost" onclick="home()">\u2190 Home</button>`;}
 
-    left, right = st.session_state.sides[i]
+function tonemarks(){app().innerHTML=`<div class="h2">Tone marks, the three tones</div>
+<div class="lesson">Yor\u00f9b\u00e1 has three tones. Think of them like the notes <b>do, re, mi</b>.
+<ul><li><b>Low (do).</b> Written with a grave mark, like <b>\u00e0</b>. Example: <i>\u00ecs\u00e0l\u1EB9\u0300</i>.</li>
+<li><b>Mid (re).</b> No mark at all, like <b>a</b>. The plain, middle voice.</li>
+<li><b>High (mi).</b> Written with an acute mark, like <b>\u00e1</b>. Example: <i>\u00f2k\u00e8</i>.</li></ul>
+Many words are spelled the same but mean different things. The tone mark tells them apart, in writing and in speech.</div>
+<button class="btn ghost" onclick="learn()">\u2190 Back to Learn</button>`;}
 
-    def option(col, key):
-        opt = q[key]
-        col.markdown(f'<div class="word">{opt["word"]}</div>', unsafe_allow_html=True)
-        if rec["hint"] or rec["answered"]:
-            col.markdown(f'<div class="muted" style="text-align:center">{opt["meaning"]}</div>',
-                         unsafe_allow_html=True)
-        if col.button("Choose", key=f"{key}{i}", disabled=rec["answered"]):
-            rec["answered"] = True
-            rec["picked"] = key
-            if key == q["correct"]:
-                st.session_state.points += POINTS_CORRECT
-                st.session_state.streak += 1
-                if st.session_state.streak >= 3:
-                    st.balloons()
-            else:
-                st.session_state.streak = 0
-            st.rerun()
+function vowel(){app().innerHTML=`<div class="h2">Vowel quality, the subdot</div>
+<div class="lesson">Some Yor\u00f9b\u00e1 letters carry a small dot underneath: <b>\u1EB9, \u1ECD, \u1E63</b>. This dot is called the <b>subdot</b>, and it changes the sound the letter makes.
+<ul><li><b>e</b> and <b>\u1EB9</b> are different sounds. The <b>e</b> is closed, like the <i>ay</i> in <i>day</i>. The <b>\u1EB9</b> is more open, like the <i>e</i> in <i>bed</i>.</li>
+<li><b>o</b> and <b>\u1ECD</b> differ too. The <b>o</b> is closed, like the <i>o</i> in <i>go</i>. The <b>\u1ECD</b> is more open, like the <i>aw</i> in <i>saw</i>.</li>
+<li><b>s</b> and <b>\u1E63</b> differ as well. The <b>\u1E63</b> is the <i>sh</i> sound, as in <i>shoe</i>.</li></ul>
+Because the subdot changes the sound, it can change a word\u2019s meaning, just like a tone mark. Some questions differ in both tone and vowel quality, and the feedback will say so.</div>
+<button class="btn ghost" onclick="learn()">\u2190 Back to Learn</button>`;}
 
-    c1, c2 = st.columns(2)
-    option(c1, left)
-    option(c2, right)
+function families(){let cards=FAMILIES.map(f=>{
+let rows=f.members.map(m=>`<div>\u2022 <b>${m.word}</b> <span class="muted">${m.meaning}</span></div>`).join("");
+return `<div class="fcard"><div class="fam">${f.key}</div>${rows}</div>`;}).join("");
+app().innerHTML=`<div class="h2">Word families</div>
+<p class="lead">Words that share the same letters but change meaning with tone or vowel. Study these, then test yourself in Play.</p>
+${cards}<button class="btn ghost" onclick="learn()">\u2190 Back to Learn</button>`;}
 
-    # Hint: 3 per round, no point cost. Reveals the meanings for this question.
-    if not rec["answered"]:
-        if rec["hint"]:
-            st.caption(f"Hints left: {st.session_state.hints_left}")
-        else:
-            out = st.session_state.hints_left == 0
-            label = "Hint" if not out else "No hints left"
-            if st.button(f"{label}  ({st.session_state.hints_left} left)", key=f"hint{i}", disabled=out):
-                rec["hint"] = True
-                st.session_state.hints_left -= 1
-                st.rerun()
+function howto(){app().innerHTML=`<div class="h2">How to play</div>
+<div class="lesson"><ol><li>Read the Yor\u00f9b\u00e1 sentence and the English line under it.</li>
+<li>Yor\u00f9b\u00e1 uses three tone marks: low (<b>\u00e0</b>), mid (<b>a</b>, no mark), high (<b>\u00e1</b>). They change what a word means.</li>
+<li>Pick the word whose marks fit the sentence.</li>
+<li>Stuck? Use a <b>Hint</b> to reveal the meanings. You get ${HINTS} hints each round.</li>
+<li>Use <b>Previous</b> and <b>Next</b> to move around and review the explanations before you finish.</li></ol>
+You score ${PTS} points per correct answer, and each round has ${ROUND} questions. New to tones? Open <b>Learn</b> first.</div>
+<div class="row"><button class="btn" onclick="newRound()">Play now</button>
+<button class="btn ghost" onclick="home()">\u2190 Home</button></div>`;}
 
-    if rec["answered"]:
-        if rec["picked"] == q["correct"]:
-            st.markdown(f'<div class="feed-good">\u2713 Correct. {q["explanation"]}</div>',
-                        unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="feed-bad">\u2717 Not quite. The answer is '
-                        f'<b>{q[q["correct"]]["word"]}</b>. {q["explanation"]}</div>',
-                        unsafe_allow_html=True)
+window.home=home;window.learn=learn;window.tonemarks=tonemarks;window.vowel=vowel;
+window.families=families;window.howto=howto;window.newRound=newRound;
+window.next=next;window.prev=prev;window.choose=choose;window.useHint=useHint;window.results=results;
+home();
+</script></body></html>'''
 
-    # navigation: move back to review, or forward through the round
-    st.write("")
-    nav = st.columns(2)
-    if nav[0].button("\u2190 Previous", key=f"prev{i}", disabled=(i == 0)):
-        goto(i - 1); st.rerun()
-    if nav[1].button("Next \u2192", key=f"next{i}", disabled=(i == n - 1)):
-        goto(i + 1); st.rerun()
+html = (GAME_HTML
+        .replace("__Q__", json.dumps(QUESTIONS, ensure_ascii=False))
+        .replace("__F__", json.dumps(FAMILIES, ensure_ascii=False))
+        .replace("__NAME__", GAME_NAME)
+        .replace("__ROUND__", str(ROUND_SIZE))
+        .replace("__PTS__", str(POINTS_CORRECT))
+        .replace("__HINTS__", str(HINTS_PER_ROUND)))
 
-    # finish is offered once every question has been answered
-    if all_answered:
-        if st.button("See your score", key="finish"):
-            go("results"); st.rerun()
-
-# ================================================================ RESULTS
-def results():
-    correct = sum(1 for j, r in enumerate(st.session_state.rec)
-                  if r["answered"] and r["picked"] == st.session_state.round[j]["correct"])
-    st.session_state.last_correct = correct
-    if correct == ROUND_SIZE:    band = "perfect"
-    elif correct >= 8:           band = "strong"
-    elif correct >= 6:           band = "middle"
-    elif correct >= 4:           band = "low"
-    else:                        band = "vlow"
-    msg = random.choice(MESSAGES[band])
-    st.markdown('<div class="h2">Round complete</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="sentence">You got <b>{correct} / {ROUND_SIZE}</b> '
-                f'correct &nbsp;\u00b7&nbsp; {st.session_state.points} points<br>'
-                f'<span class="muted">{msg}</span></div>', unsafe_allow_html=True)
-    st.write("")
-    if st.button("Play again"):
-        new_round(); st.rerun()
-    c1, c2 = st.columns(2)
-    if c1.button("Learn"): go("learn"); st.rerun()
-    if c2.button("Home"): go("home"); st.rerun()
-
-# ================================================================ LEARN
-def learn():
-    st.markdown('<div class="h2">Learn</div>', unsafe_allow_html=True)
-    if st.button("Tone marks (the three tones)"): go("tonemarks"); st.rerun()
-    if st.button("Vowel quality (the subdot)"): go("vowel"); st.rerun()
-    if st.button("Word families"): go("families"); st.rerun()
-    st.write("")
-    if st.button("\u2190 Home", key="learn_home"): go("home"); st.rerun()
-
-def tonemarks():
-    st.markdown('<div class="h2">Tone marks, the three tones</div>', unsafe_allow_html=True)
-    st.markdown("""<div class="lesson">
-
-Yor\u00f9b\u00e1 has three tones. Think of them like the notes **do, re, mi**.
-
-- **Low (do).** Written with a grave mark, like **\u00e0**. Example: *\u00ecs\u00e0l\u1EB9\u0300*.
-- **Mid (re).** No mark at all, like **a**. This is the plain, middle voice.
-- **High (mi).** Written with an acute mark, like **\u00e1**. Example: *\u00f2k\u00e8*.
-
-Many Yor\u00f9b\u00e1 words are spelled with the same letters but mean different
-things. The tone mark is what tells them apart, in writing and in speech. This
-game is about spotting that difference.
-
-</div>""", unsafe_allow_html=True)
-    if st.button("\u2190 Back to Learn", key="tm_back"): go("learn"); st.rerun()
-
-def vowel():
-    st.markdown('<div class="h2">Vowel quality, the subdot</div>', unsafe_allow_html=True)
-    st.markdown("""<div class="lesson">
-
-Some Yor\u00f9b\u00e1 letters carry a small dot underneath: **\u1EB9, \u1ECD, \u1E63**.
-This dot is called the **subdot**, and it changes the sound the letter makes.
-
-- **e** and **\u1EB9** are different sounds. The **e** is closed, like the *ay* in
-  *day*. The **\u1EB9** is more open, like the *e* in *bed*.
-- **o** and **\u1ECD** are different too. The **o** is closed, like the *o* in *go*.
-  The **\u1ECD** is more open, like the *aw* in *saw*.
-- **s** and **\u1E63** differ as well. The **\u1E63** is the *sh* sound, as in *shoe*.
-
-Because the subdot changes the sound, it can change the meaning of a word, just
-like a tone mark does. Some questions in this game differ in both their tone and
-their vowel quality, and the feedback will tell you when that happens.
-
-</div>""", unsafe_allow_html=True)
-    if st.button("\u2190 Back to Learn", key="vq_back"): go("learn"); st.rerun()
-
-def families():
-    st.markdown('<div class="h2">Word families</div>', unsafe_allow_html=True)
-    st.write("Words that share the same letters but change meaning with tone or "
-             "vowel. Study these, then test yourself in Play.")
-    for fam in FAMILIES:
-        rows = "".join(
-            f'<div>\u2022 <b>{m["word"]}</b> <span class="muted">{m["meaning"]}</span></div>'
-            for m in fam["members"])
-        st.markdown(f'<div class="card"><div class="fam">{fam["key"]}</div>{rows}</div>',
-                    unsafe_allow_html=True)
-    if st.button("\u2190 Back to Learn", key="fam_back"): go("learn"); st.rerun()
-
-# ================================================================ HOW TO PLAY
-def howto():
-    st.markdown('<div class="h2">How to play</div>', unsafe_allow_html=True)
-    st.markdown(f"""<div class="lesson">
-
-1. Read the Yor\u00f9b\u00e1 sentence and the English line under it.
-2. Yor\u00f9b\u00e1 uses three tone marks: low (**\u00e0**), mid (**a**, no mark),
-   high (**\u00e1**). They change what a word means.
-3. Pick the word whose marks fit the sentence.
-4. Stuck? Use a **Hint** to reveal the meanings. You get {HINTS_PER_ROUND} hints each round.
-
-You score {POINTS_CORRECT} points for each correct answer, and each round has
-{ROUND_SIZE} questions. New to tones? Open **Learn** first.
-
-</div>""", unsafe_allow_html=True)
-    c1, c2 = st.columns(2)
-    if c1.button("Play now"): new_round(); st.rerun()
-    if c2.button("\u2190 Home", key="howto_home"): go("home"); st.rerun()
-
-# ---------------------------------------------------------------- router
-SCREENS = {"home": home, "play": play, "results": results, "learn": learn,
-           "tonemarks": tonemarks, "vowel": vowel, "families": families, "howto": howto}
-SCREENS.get(st.session_state.screen, home)()
+components.html(html, height=900, scrolling=True)
