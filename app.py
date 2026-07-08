@@ -8,6 +8,16 @@ below; Streamlit hosts it and gives it a public web address.
 To change the game name, edit GAME_NAME.
 The questions and word families are read from the two JSON files, so to add or
 edit content you only touch questions.json and families.json.
+
+Tone sandhi note:
+Some monosyllabic verbs carry a low tone in citation form but shift to a mid
+tone when directly followed by a noun (e.g. sùn -> sun oorun, nà -> na Dada).
+This is explained in its own Learn section ("Verbs that shift tone"), and any
+question involving a sandhi verb can carry an optional "sandhi_note" field in
+questions.json which will be shown in the feedback after the learner answers.
+Word families that are sandhi pairs (citation vs. before-noun form) can be
+tagged with "type": "sandhi" in families.json to get a small badge on the
+Word families page.
 """
 
 import json
@@ -76,8 +86,11 @@ border-radius:10px;padding:18px 20px;font-size:1.5rem;margin:.2rem 0;}
 .feed{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:1.02rem;}
 .feed.good{background:#eaf5ef;border-left:5px solid var(--good);color:#1c5a40;}
 .feed.bad{background:#fbeef0;border-left:5px solid var(--bad);color:#7c2531;}
-.fcard{background:#fff;border:1px solid #ece5d8;border-radius:10px;padding:12px 16px;margin-bottom:10px;}
+.feed.sandhi{background:#fbf3e3;border-left:5px solid var(--gold);color:#6b4f13;margin-top:10px;}
+.fcard{background:#fff;border:1px solid #ece5d8;border-radius:10px;padding:12px 16px;margin-bottom:10px;position:relative;}
 .fam{font-weight:800;color:var(--gold);font-size:1.15rem;}
+.badge{display:inline-block;background:#fbf3e3;color:#8a6a1a;border:1px solid #e9d3a0;
+border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700;margin-left:8px;vertical-align:middle;}
 .muted{color:#6b7280;}
 .lesson{background:#fff;border:1px solid #ece5d8;border-radius:10px;padding:6px 20px;line-height:1.6;}
 .lesson li{margin:6px 0;}
@@ -111,7 +124,8 @@ if(q._answered){c+=" lock";if(s===q.correct)c+=" good";else if(s===q._picked)c+=
 return `<div class="${c}" data-s="${s}"><div class="word">${o.word}</div><div class="mean">${show?o.meaning:""}</div></div>`;}
 let feed="",hintArea="";
 if(q._answered){const ok=q._picked===q.correct;
-feed=`<div class="feed ${ok?'good':'bad'}">${ok?'\u2713 Correct. ':'\u2717 Not quite. The answer is <b>'+q[q.correct].word+'</b>. '}${q.explanation}</div>`;}
+feed=`<div class="feed ${ok?'good':'bad'}">${ok?'\u2713 Correct. ':'\u2717 Not quite. The answer is <b>'+q[q.correct].word+'</b>. '}${q.explanation}</div>`;
+if(q.sandhi_note){feed+=`<div class="feed sandhi">\uD83D\uDD01 ${q.sandhi_note}</div>`;}}
 else if(q._hint){hintArea=`<div class="hintnote">Hints left: ${hintsLeft}</div>`;}
 else{hintArea=`<button class="btn ghost" onclick="useHint()" ${hintsLeft===0?'disabled':''}>${hintsLeft===0?'No hints left':'Hint'} (${hintsLeft} left)</button>`;}
 const nav=`<div class="row">
@@ -150,6 +164,7 @@ function home(){app().innerHTML=`
 function learn(){app().innerHTML=`<div class="h2">Learn</div>
 <button class="btn" onclick="tonemarks()">Tone marks (the three tones)</button>
 <button class="btn" onclick="vowel()">Vowel quality (the subdot)</button>
+<button class="btn" onclick="sandhi()">Verbs that shift tone</button>
 <button class="btn" onclick="families()">Word families</button>
 <button class="btn ghost" onclick="home()">\u2190 Home</button>`;}
 
@@ -169,11 +184,25 @@ function vowel(){app().innerHTML=`<div class="h2">Vowel quality, the subdot</div
 Because the subdot changes the sound, it can change a word\u2019s meaning, just like a tone mark. Some questions differ in both tone and vowel quality, and the feedback will say so.</div>
 <button class="btn ghost" onclick="learn()">\u2190 Back to Learn</button>`;}
 
+function sandhi(){app().innerHTML=`<div class="h2">Verbs that shift tone</div>
+<div class="lesson">Some short (one-syllable) verbs carry a <b>low tone</b> when they stand alone,
+but that low tone rises to a <b>mid tone</b> when the verb is directly followed by a noun.
+<ul><li><b>S\u00f9n</b> (to sleep) on its own \u2192 <b>sun oorun</b> (to sleep deeply, literally "sleep sleep").</li>
+<li><b>N\u00e0</b> (to beat, whip) on its own \u2192 <b>na Dada</b> (to beat Dada).</li></ul>
+This is not a new word, and the meaning does not change. It is the same verb, smoothing its
+pitch before an object, the same way English "a" becomes "an" before a vowel sound.
+When you see a word like this in a question, look for a small gold note under the feedback
+explaining the shift. The more you notice it, the more natural it will start to feel.</div>
+<button class="btn ghost" onclick="learn()">\u2190 Back to Learn</button>`;}
+
 function families(){let cards=FAMILIES.map(f=>{
 let rows=f.members.map(m=>`<div>\u2022 <b>${m.word}</b> <span class="muted">${m.meaning}</span></div>`).join("");
-return `<div class="fcard"><div class="fam">${f.key}</div>${rows}</div>`;}).join("");
+let badge=f.type==="sandhi"?`<span class="badge">\uD83D\uDD01 tone shift</span>`:"";
+return `<div class="fcard"><div class="fam">${f.key}${badge}</div>${rows}</div>`;}).join("");
 app().innerHTML=`<div class="h2">Word families</div>
-<p class="lead">Words that share the same letters but change meaning with tone or vowel. Study these, then test yourself in Play.</p>
+<p class="lead">Words that share the same letters but change meaning with tone or vowel. Families marked
+<span class="badge">\uD83D\uDD01 tone shift</span> are the same word in two forms: the citation form and the
+form used before a noun. Study these, then test yourself in Play.</p>
 ${cards}<button class="btn ghost" onclick="learn()">\u2190 Back to Learn</button>`;}
 
 function howto(){app().innerHTML=`<div class="h2">How to play</div>
@@ -187,7 +216,7 @@ You score ${PTS} points per correct answer, and each round has ${ROUND} question
 <button class="btn ghost" onclick="home()">\u2190 Home</button></div>`;}
 
 window.home=home;window.learn=learn;window.tonemarks=tonemarks;window.vowel=vowel;
-window.families=families;window.howto=howto;window.newRound=newRound;
+window.sandhi=sandhi;window.families=families;window.howto=howto;window.newRound=newRound;
 window.next=next;window.prev=prev;window.choose=choose;window.useHint=useHint;window.results=results;
 home();
 </script></body></html>'''
