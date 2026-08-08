@@ -182,7 +182,6 @@ function play(){
  let listen=q._opts.filter(o=>AUDIO[o.word]).map(o=>`<button class="audio" onclick="playAudio('${AUDIO[o.word]}')">🔊 ${o.word}</button>`).join(" ");
  if(q.audio)listen=`<button class="audio" onclick="playAudio('${q.audio}')">🔊 sentence</button> `+listen;
  const audio=listen?`<div style="margin:6px 0">${listen}</div>`:"";
- const fam=`<button class="btn ghost" onclick="famPeek()">📖 Word families</button>`;
  const nav=`<div class="row">
  <button class="btn ghost" onclick="prev()" ${i===0?'disabled':''}>← Previous</button>
  <button class="btn ghost" onclick="next()" ${i===N-1?'disabled':''}>Next →</button></div>`;
@@ -193,7 +192,7 @@ function play(){
  <div class="bar"><i style="width:${(i+1)/N*100}%"></i></div>
  ${promptHtml}
  <div class="opts">${q._opts.map(card).join("")}</div>
- ${audio}${feed}${hintArea}${fam}${nav}${finish}`;
+ ${audio}${feed}${hintArea}${nav}${finish}`;
  if(!q._answered){app().querySelectorAll(".card").forEach(c=>c.onclick=()=>choose(c.dataset.w));}
 }
 
@@ -224,10 +223,9 @@ function results(){
 }
 
 // ---- screens ---------------------------------------------------------------
-function home(){peek=false;const r=rankFor(P.coins);
+function home(){peek=false;
  app().innerHTML=`
  <div class="home"><div class="title">${NAME}</div><div class="marks">à <b>a</b> á</div></div>
- <div class="stats"><span class="chip">🏅 ${r.name}</span><span class="chip">🪙 <b>${P.coins}</b> coins</span><span class="chip">Best <b>${P.best||0}%</b></span></div>
  <button class="btn" onclick="levelMenu()">Play</button>
  <div class="row"><button class="btn ghost" onclick="learn()">Learn</button>
  <button class="btn ghost" onclick="lookup()">Dictionary</button></div>
