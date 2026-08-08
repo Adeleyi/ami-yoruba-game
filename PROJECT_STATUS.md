@@ -23,10 +23,13 @@ without touching code.
 
 ## 2. Implemented in this phase
 
-- **Graded difficulty ladder** — Monosyllabic → Bisyllabic → Trisyllabic →
-  Sentences → Mixed. Word levels are **generated automatically from the reviewed
-  word families**, split by syllable count (62 monosyllabic + 39 bisyllabic
-  items from current data). No fabricated content.
+- **Graded difficulty ladder** — learners choose **Beginner → Intermediate →
+  Advanced** (plus a Mixed option). Behind the scenes these map to word length:
+  Beginner = single-syllable words, Intermediate = two-syllable words, Advanced =
+  full sentences — all **generated automatically from the reviewed word
+  families** (62 single-syllable + 39 two-syllable items from current data).
+  Rounds continue and gently blend in the next level before graduating up. No
+  fabricated content.
 - **Word-level "guess the tone"** — a single word + its English meaning is shown;
   the learner picks the correctly-toned form. Distractors are the word's own
   family members, and the explanation is built automatically from the glosses.
