@@ -1,0 +1,102 @@
+num,word,meaning(s),filename_to_save,appears_in
+001,alẹ́,night,audio/001_ale.mp3,family:ale ; sentence:S06
+002,apá,arm,audio/002_apa.mp3,family:apa
+003,aya,wife,audio/003_aya.mp3,family:aya ; sentence:S01
+004,ayè,"space, opportunity",audio/004_aye.mp3,family:aye
+005,ayé,"world, life",audio/005_aye.mp3,family:aye
+006,bọ,to worship,audio/006_bo.mp3,family:bo ; sentence:B07
+007,bọ́,to take off,audio/007_bo.mp3,family:bo ; sentence:B07
+008,din,sound / noise,audio/008_din.mp3,family:din ; sentence:A18
+009,dè,to tie / bind,audio/009_de.mp3,family:de ; sentence:S17
+010,dé,to arrive,audio/010_de.mp3,family:de ; sentence:S17
+011,dín,to fry,audio/011_din.mp3,family:din ; sentence:A18
+012,ebi,hunger,audio/012_ebi.mp3,family:ebi ; sentence:S02
+013,fa,to drag,audio/013_fa.mp3,family:fa ; sentence:B19
+014,fá,to scrape,audio/014_fa.mp3,family:fa ; sentence:B19
+015,fò,to fly / jump,audio/015_fo.mp3,family:fo ; sentence:S15
+016,fọ,to wash,audio/016_fo.mp3,family:fo ; sentence:B09 ; sentence:S15
+017,fọ́,to break,audio/017_fo.mp3,family:fo ; sentence:B09
+018,gbà,to take / receive,audio/018_gba.mp3,family:gba ; sentence:B14
+019,gbá,to sweep,audio/019_gba.mp3,family:gba ; sentence:B14
+020,gbé,to marry / take,audio/020_gbe.mp3,family:gbe ; sentence:A02
+021,gbẹ,to dry,audio/021_gbe.mp3,family:gbe ; sentence:A02
+022,gun,to climb,audio/022_gun.mp3,family:gun ; sentence:B16
+023,gún,to pound,audio/023_gun.mp3,family:gun ; sentence:B16
+024,igba,calabash / two hundred,audio/024_igba.mp3,family:igba ; sentence:S18
+025,ilé,house,audio/025_ile.mp3,family:ile ; sentence:S05
+026,ilẹ̀,ground / land,audio/026_ile.mp3,family:ile ; sentence:S05
+027,jà,to fight,audio/027_ja.mp3,family:ja ; sentence:B17
+028,já,to pluck / snap,audio/028_ja.mp3,family:ja ; sentence:B17
+029,jó,to dance,audio/029_jo.mp3,family:jo ; sentence:A12
+030,jẹ,to bite / eat,audio/030_je.mp3,family:je ; sentence:B15
+031,jẹ́,to be / answer to,audio/031_je.mp3,family:je ; sentence:B15
+032,jọ,to resemble,audio/032_jo.mp3,family:jo ; sentence:A12
+033,kan,to drive in / nail,audio/033_kan.mp3,family:kan ; sentence:B04
+034,kun,to paint,audio/034_kun.mp3,family:kun ; sentence:B11
+035,kán,to snap / break,audio/035_kan.mp3,family:kan ; sentence:B04
+036,kùn,to grumble,audio/036_kun.mp3,family:kun ; sentence:B11
+037,kọ,to write,audio/037_ko.mp3,family:ko ; sentence:A03 ; sentence:A13 ; sentence:S08
+038,kọ̀,to refuse,audio/038_ko.mp3,family:ko ; sentence:S08
+039,kọ́,to build ; to learn,audio/039_ko.mp3,family:ko ; sentence:A03 ; sentence:A13
+040,le,to be hard,audio/040_le.mp3,family:le ; sentence:A10
+041,lo,to use,audio/041_lo.mp3,family:lo ; sentence:S12
+042,lé,to chase away,audio/042_le.mp3,family:le ; sentence:A10
+043,lọ,to go ; to go (went),audio/043_lo.mp3,family:lo ; sentence:A01 ; sentence:S12
+044,lọ̀,to grind,audio/044_lo.mp3,family:lo ; sentence:A01
+045,mo,I / me,audio/045_mo.mp3,family:mo ; sentence:S07
+046,mu,to drink,audio/046_mu.mp3,family:mu ; sentence:A06 ; sentence:A09 ; sentence:S11
+047,mú,to bring / take ; to catch / arrest ; to hold / catch,audio/047_mu.mp3,family:mu ; sentence:A06 ; sentence:A09 ; sentence:S11
+048,mọ,to know,audio/048_mo.mp3,family:mo ; sentence:A16 ; sentence:S07
+049,mọ́,to clean,audio/049_mo.mp3,family:mo ; sentence:A16
+050,oko,farm,audio/050_oko.mp3,family:oko ; sentence:S03
+051,oká,cobra,audio/051_oka.mp3,family:oka
+052,oró,venom,audio/052_oro.mp3,family:oro
+053,owó,money,audio/053_owo.mp3,family:owo
+054,padé,to close,audio/054_pade.mp3,family:pade ; sentence:A11
+055,pàdé,to meet,audio/055_pade.mp3,family:pade ; sentence:A11
+056,pè,to call,audio/056_pe.mp3,family:pe ; sentence:S16
+057,pé,to be complete,audio/057_pe.mp3,family:pe ; sentence:S16
+058,ri,to bury,audio/058_ri.mp3,family:ri ; sentence:B06
+059,rà,to buy,audio/059_ra.mp3,family:ra ; sentence:B08 ; sentence:S13
+060,ràn,to help,audio/060_ran.mp3,family:ran ; sentence:A04 ; sentence:A14
+061,rá,to crawl,audio/061_ra.mp3,family:ra ; sentence:B08 ; sentence:S13
+062,rán,to send,audio/062_ran.mp3,family:ran ; sentence:A04 ; sentence:A14
+063,rí,to see,audio/063_ri.mp3,family:ri ; sentence:B06
+064,rọ,to pour,audio/064_ro.mp3,family:ro ; sentence:B18
+065,rọ̀,to be soft,audio/065_ro.mp3,family:ro ; sentence:B18
+066,sùn,to sleep,audio/066_sun.mp3,family:sun ; sentence:B10
+067,sún,to shift / move,audio/067_sun.mp3,family:sun ; sentence:B10
+068,tẹ̀lé,to follow,audio/068_tele.mp3,family:tele ; sentence:A15
+069,tẹ́lẹ̀,before / earlier,audio/069_tele.mp3,family:tele ; sentence:A15
+070,tọ̀,to urinate,audio/070_to.mp3,family:to ; sentence:B01
+071,tọ́,to pick / pluck,audio/071_to.mp3,family:to ; sentence:B01
+072,wa,to drive,audio/072_wa.mp3,family:wa ; sentence:B12
+073,wá,to come,audio/073_wa.mp3,family:wa ; sentence:B12
+074,wọ,to wear,audio/074_wo.mp3,family:wo ; sentence:B13
+075,wọ́,to drag,audio/075_wo.mp3,family:wo ; sentence:B13
+076,yọ,to remove,audio/076_yo.mp3,family:yo ; sentence:B05
+077,yọ́,to strain / sieve,audio/077_yo.mp3,family:yo ; sentence:B05
+078,àgbo,herbal medicine,audio/078_agbo.mp3,family:agbo ; sentence:S04
+079,àgbò,ram,audio/079_agbo.mp3,family:agbo ; sentence:S04
+080,àlè,secret lover,audio/080_ale.mp3,family:ale ; sentence:S06
+081,àpá,scar,audio/081_apa.mp3,family:apa
+082,àyà,chest,audio/082_aya.mp3,family:aya ; sentence:S01
+083,ìgbà,time / season,audio/083_igba.mp3,family:igba ; sentence:S18
+084,òjò,rain,audio/084_ojo.mp3,family:ojo ; sentence:S09
+085,ṣe,to cook / make,audio/085_se.mp3,family:se ; sentence:A05
+086,ṣẹ̀,to offend,audio/086_se.mp3,family:se ; sentence:A05
+087,ẹbí,family / relative,audio/087_ebi.mp3,family:ebi ; sentence:S02
+088,ọjọ́,day,audio/088_ojo.mp3,family:ojo ; sentence:S09
+089,ọkà,"corn, cereal",audio/089_oka.mp3,family:oka
+090,ọkọ,husband,audio/090_oko.mp3,family:oko
+091,ọkọ̀,vehicle,audio/091_oko.mp3,family:oko
+092,ọkọ́,hoe,audio/092_oko.mp3,family:oko ; sentence:S03
+093,ọnà,"art, craft",audio/093_ona.mp3,family:ona
+094,ọrẹ,gift / offering,audio/094_ore.mp3,family:ore ; sentence:A20
+095,ọrọ̀,wealth,audio/095_oro.mp3,family:oro
+096,ọwọ́,hand,audio/096_owo.mp3,family:owo
+097,ọ̀kọ̀,spear,audio/097_oko.mp3,family:oko
+098,ọ̀nà,"road, way",audio/098_ona.mp3,family:ona
+099,ọ̀rẹ́,friends,audio/099_ore.mp3,family:ore ; sentence:A20
+100,ọ̀rọ̀,"word, matter",audio/100_oro.mp3,family:oro
+101,ọ̀wọ̀,respect,audio/101_owo.mp3,family:owo

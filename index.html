@@ -1,61 +1,21 @@
-"""
-Àmì — Yorùbá tone learning game.
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Àmì — Yorùbá tone game</title>
+<!--
+  Àmì — Yorùbá tone learning game (static web app).
 
-This Streamlit app serves the game as a single self-contained page.
-The whole game (levels, cards, lessons, gamification) lives in the HTML/JS
-below; Streamlit hosts it and gives it a public web address.
+  This is the plain, framework-free version of the game: just index.html plus
+  questions.json and families.json. It runs in any browser and can be hosted for
+  free on Vercel, Netlify, or GitHub Pages — no server, no database, no cost.
 
-Content sources (edit these, not the code):
-  - questions.json : sentence-level fill-in-the-blank items.
-  - families.json  : vetted minimal-pair word families (same spelling, tone
-                     changes the meaning). The game GENERATES the word-level
-                     Monosyllable / Bisyllable / Trisyllable rounds from these,
-                     so every word-level item comes from reviewed data.
+  Content lives in the two JSON files (edit those, not this file):
+    questions.json : sentence-level fill-in-the-blank items.
+    families.json  : vetted minimal-pair word families. The game GENERATES the
+                     Monosyllable / Bisyllable / Trisyllable rounds from these.
 
-Difficulty ladder (lecturer's "graded difficulty"):
-  Monosyllable -> Bisyllable -> Trisyllable -> Sentences -> Mixed.
-  Word levels are split by syllable count (number of vowels in the family key).
+  Progress (coins, best score, rank) is stored in the browser's localStorage.
 
-Tone sandhi / phrasal combination:
-  Some words change tone when they join with another word (e.g. a monosyllabic
-  verb's low tone is suppressed before a noun object). This is taught in the
-  Learn > "Phrasal combination" and "Verbs that shift tone" sections. A question
-  may carry an optional "sandhi_note" field shown after the learner answers.
-
-Progress & gamification are stored in the learner's browser (localStorage), so
-there is NO server, NO database, and NO running cost.
-
-NOTE: the Yorùbá rank names and any generated content are marked for native
-review — see RANKS below and the "review" flag in families.json.
-"""
-
-import json
-import streamlit as st
-import streamlit.components.v1 as components
-
-# ---- settings you can edit -------------------------------------------------
-GAME_NAME = "Àmì"        # the title shown on the home screen
-ROUND_SIZE = 10           # questions per round
-POINTS_CORRECT = 10       # points per correct answer
-HINTS_PER_ROUND = 3       # hints allowed per round
-# ---------------------------------------------------------------------------
-
-st.set_page_config(page_title=GAME_NAME, page_icon="🎵", layout="centered")
-
-# hide Streamlit's own chrome so only the game shows
-st.markdown("""
-<style>
-#MainMenu, header, footer {visibility:hidden;}
-.block-container{padding:0 !important; max-width:720px !important;}
-[data-testid="stAppViewContainer"]{background:#faf7f2;}
-</style>
-""", unsafe_allow_html=True)
-
-QUESTIONS = json.load(open("questions.json", encoding="utf-8"))
-FAMILIES = json.load(open("families.json", encoding="utf-8"))
-
-GAME_HTML = r'''<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>AMI</title>
+  To run locally:  python3 -m http.server  then open http://localhost:8000
+-->
 <style>
 :root{--indigo:#1d2b53;--indigo2:#2c3e6b;--gold:#c8902a;--paper:#faf7f2;
 --good:#2e7d5b;--bad:#b23a48;--ink:#222838;}
@@ -114,10 +74,14 @@ border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700;margin-lef
 padding:4px 12px;font-size:.9rem;font-weight:700;margin:6px 0 0;}
 .rankup{background:#fbf3e3;border:1px solid #e9d3a0;border-radius:10px;padding:12px 16px;color:#6b4f13;margin-top:10px;text-align:center;font-weight:700;}
 .soon{opacity:.55;}
-</style></head><body><div class="wrap"><div id="app"></div></div>
+.lkinput{width:100%;border:1px solid #e6ded0;border-radius:10px;padding:12px 14px;font-size:1.15rem;margin:6px 0 12px;}
+.lkinput:focus{outline:none;border-color:var(--indigo);}
+</style></head><body><div class="wrap"><div id="app">Loading…</div></div>
 <script>
-const QUESTIONS=__Q__, FAMILIES=__F__;
-const NAME="__NAME__", ROUND=__ROUND__, PTS=__PTS__, HINTS=__HINTS__;
+// ---- config (edit these) ---------------------------------------------------
+const NAME="Àmì", ROUND=10, PTS=10, HINTS=3;
+// ---- data (loaded from the JSON files at startup) --------------------------
+let QUESTIONS=[], FAMILIES=[], WORDITEMS=[], SENTENCE_ITEMS=[], LOOKUP=[], AUDIO={};
 
 const MSG={
 perfect:["Perfect round. You read every tone correctly. You are a champion.","Flawless, ten out of ten. Your ear for tone is excellent.","A clean sweep. Every single answer was right."],
@@ -128,11 +92,11 @@ vlow:["Do not worry, tones take practice. Visit Learn, then try again.","Tone is
 
 // Rank names are tone-themed and PENDING NATIVE-SPEAKER REVIEW. Edit freely.
 const RANKS=[
- {min:0,   name:"Ìbẹ̀rẹ̀",       gloss:"Beginner"},
- {min:10,  name:"Ohùn Ìsàlẹ̀",   gloss:"Low tone"},
- {min:25,  name:"Ohùn Áárín",         gloss:"Mid tone"},
- {min:50,  name:"Ohùn Òkè",                gloss:"High tone"},
- {min:100, name:"Ọ̀gá Àmì",      gloss:"Tone master"}];
+ {min:0,   name:"Ìbẹ̀rẹ̀",     gloss:"Beginner"},
+ {min:10,  name:"Ohùn Ìsàlẹ̀", gloss:"Low tone"},
+ {min:25,  name:"Ohùn Àárín",  gloss:"Mid tone"},
+ {min:50,  name:"Ohùn Òkè",    gloss:"High tone"},
+ {min:100, name:"Ọ̀gá Àmì",    gloss:"Tone master"}];
 function rankFor(c){let r=RANKS[0];for(const x of RANKS){if(c>=x.min)r=x;}return r;}
 
 // ---- persistent progress (browser localStorage; no server, no cost) --------
@@ -146,29 +110,34 @@ const app=()=>document.getElementById("app");
 const pickOne=a=>a[Math.random()*a.length|0];
 function shuffle(a){for(let k=a.length-1;k>0;k--){const j=Math.random()*(k+1)|0;[a[k],a[j]]=[a[j],a[k]];}return a;}
 function sample(a,n){return shuffle([...a]).slice(0,n);}
-
-// ---- build word-level items from the vetted families (no fabrication) ------
 function sylCount(key){return (key.match(/[aeiou]/g)||[]).length;}
 function levelOf(n){return n<=1?"mono":n===2?"bi":"tri";}
-let WORDITEMS=[];
-FAMILIES.forEach(f=>{
- if(!f.members||f.members.length<2)return;
- const lv=levelOf(sylCount(f.key));
- f.members.forEach(m=>{
+// strip tone marks AND the subdot so "oko" matches "ọkọ̀", "ẹ̀kọ́", etc.
+function bare(s){return s.normalize("NFD").replace(/[̣̀́]/g,"").toLowerCase();}
+
+// ---- build playable items from the loaded data -----------------------------
+function buildData(){
+ WORDITEMS=[];
+ FAMILIES.forEach(f=>{
+  if(!f.members||f.members.length<2)return;
+  const lv=levelOf(sylCount(f.key));
+  f.members.forEach(m=>{
    let others=shuffle(f.members.filter(x=>x.word!==m.word)).slice(0,3);
    WORDITEMS.push({kind:"word",level:lv,famKey:f.key,bare:f.key,prompt:m.meaning,
      options:[m,...others].map(o=>({word:o.word,meaning:o.meaning})),
      correctWord:m.word,
      explanation:`<b>${m.word}</b> means “${m.meaning}”.`+
        (others.length?` The look-alikes: `+others.map(o=>`<b>${o.word}</b> (“${o.meaning}”)`).join(", ")+".":"")});
+  });
  });
-});
-// ---- sentence-level items (as authored) ------------------------------------
-const SENTENCE_ITEMS=QUESTIONS.map(q=>({kind:"sentence",level:"sentence",id:q.id,
- sentence:q.sentence,translation:q.translation,
- options:[{word:q.A.word,meaning:q.A.meaning},{word:q.B.word,meaning:q.B.meaning}],
- correctWord:q[q.correct].word,explanation:q.explanation,
- sandhi_note:q.sandhi_note,audio:q.audio}));
+ SENTENCE_ITEMS=QUESTIONS.map(q=>({kind:"sentence",level:"sentence",id:q.id,
+  sentence:q.sentence,translation:q.translation,
+  options:[{word:q.A.word,meaning:q.A.meaning},{word:q.B.word,meaning:q.B.meaning}],
+  correctWord:q[q.correct].word,explanation:q.explanation,
+  sandhi_note:q.sandhi_note,audio:q.audio}));
+ LOOKUP=[];
+ FAMILIES.forEach(f=>f.members.forEach(m=>LOOKUP.push({word:m.word,meaning:m.meaning,key:f.key,b:bare(m.word)})));
+}
 
 function poolFor(mode){
  if(mode==="sentence")return SENTENCE_ITEMS;
@@ -188,12 +157,11 @@ function newRound(mode){
 
 function play(){
  if(peek){return renderFamilies(true);}
- const q=rd[i],N=rd.length,r=rankFor(P.coins);
+ const q=rd[i],N=rd.length;
  const show=q._hint||q._answered, allAns=rd.every(x=>x._answered);
  function card(o){let c="card";
   if(q._answered){c+=" lock";if(o.word===q.correctWord)c+=" good";else if(o.word===q._picked)c+=" bad";}
   return `<div class="${c}" data-w="${o.word}"><div class="word">${o.word}</div><div class="mean">${show?o.meaning:""}</div></div>`;}
- // prompt area differs by kind
  let promptHtml;
  if(q.kind==="sentence"){
   promptHtml=`<div class="sentence">${q.sentence}</div><div class="hint">💬 ${q.translation}</div>`;
@@ -207,7 +175,9 @@ function play(){
   if(q.sandhi_note){feed+=`<div class="feed sandhi">🔁 ${q.sandhi_note}</div>`;}
  }else if(q._hint){hintArea=`<div class="hintnote">Hints left: ${hintsLeft}</div>`;}
  else{hintArea=`<button class="btn ghost" onclick="useHint()" ${hintsLeft===0?'disabled':''}>${hintsLeft===0?'No hints left':'Hint'} (${hintsLeft} left)</button>`;}
- const audio=q.audio?`<button class="audio" onclick="playAudio('${q.audio}')">🔊 Listen</button>`:"";
+ let listen=q._opts.filter(o=>AUDIO[o.word]).map(o=>`<button class="audio" onclick="playAudio('${AUDIO[o.word]}')">🔊 ${o.word}</button>`).join(" ");
+ if(q.audio)listen=`<button class="audio" onclick="playAudio('${q.audio}')">🔊 sentence</button> `+listen;
+ const audio=listen?`<div style="margin:6px 0">${listen}</div>`:"";
  const fam=`<button class="btn ghost" onclick="famPeek()">📖 Word families</button>`;
  const nav=`<div class="row">
  <button class="btn ghost" onclick="prev()" ${i===0?'disabled':''}>← Previous</button>
@@ -256,7 +226,8 @@ function home(){peek=false;const r=rankFor(P.coins);
  <div class="stats"><span class="chip">🏅 ${r.name}</span><span class="chip">🪙 <b>${P.coins}</b> coins</span><span class="chip">Best <b>${P.best||0}%</b></span></div>
  <button class="btn" onclick="levelMenu()">Play</button>
  <div class="row"><button class="btn ghost" onclick="learn()">Learn</button>
- <button class="btn ghost" onclick="howto()">How to play</button></div>`;}
+ <button class="btn ghost" onclick="lookup()">Dictionary</button></div>
+ <button class="btn ghost" onclick="howto()">How to play</button>`;}
 
 function levelMenu(){peek=false;
  const counts={mono:poolFor("mono").length,bi:poolFor("bi").length,tri:poolFor("tri").length,sentence:poolFor("sentence").length};
@@ -283,6 +254,23 @@ function renderFamilies(inRound){
  <p class="lead">Words that share the same letters but change meaning with tone or vowel. ${inRound?"Take a look, then return to your question.":"Study these, then test yourself in Play."}</p>
  ${cards}${back}`;}
 function families(){peek=false;renderFamilies(false);}
+
+function lookup(){peek=false;
+ app().innerHTML=`<div class="h2">Dictionary</div>
+ <p class="lead">Type a word <b>without tone marks</b> (e.g. “oko”) to see every toned form and what each one means.</p>
+ <input id="lkq" class="lkinput" placeholder="Search a word…" oninput="doSearch(this.value)" autocomplete="off">
+ <div id="lkres"></div>
+ <button class="btn ghost" onclick="home()">← Home</button>`;
+ setTimeout(()=>{const el=document.getElementById("lkq");if(el)el.focus();},0);
+ doSearch("");}
+function doSearch(qraw){
+ const box=document.getElementById("lkres");if(!box)return;
+ const t=bare(qraw).trim();
+ if(!t){box.innerHTML=`<p class="muted">Start typing to search ${LOOKUP.length} words.</p>`;return;}
+ let hits=LOOKUP.filter(x=>x.b.includes(t));
+ hits.sort((a,b)=>(a.b===t?0:1)-(b.b===t?0:1));
+ if(!hits.length){box.innerHTML=`<p class="muted">No match for “${qraw}”. Try fewer letters, or check the Word families page.</p>`;return;}
+ box.innerHTML=hits.slice(0,40).map(x=>`<div class="fcard"><div><b>${x.word}</b> <span class="muted">${x.meaning}</span> <span class="badge">${x.key}</span></div></div>`).join("");}
 
 function learn(){peek=false;app().innerHTML=`<div class="h2">Learn</div>
  <button class="btn" onclick="tonemarks()">Tone marks (the three tones)</button>
@@ -314,7 +302,7 @@ function phrasal(){app().innerHTML=`<div class="h2">Phrasal combination</div>
  <p><b>The main pattern.</b> A short (one-syllable) <b>verb</b> that carries a <b>low tone</b> on its own often loses that low tone when a <b>noun</b> follows it directly. In the linguistics literature this is described as the verb’s low tone being <i>suppressed before its object</i>.</p>
  <p><b>An example from this game.</b> The word for <i>to know</i> is <b>mọ̀</b> (low) on its own. But in “<i>Ta ló mọ orúkọ...?</i>” it is said as <b>mọ</b> (mid) — the same verb, smoothing its pitch before the noun.</p>
  <p>This is why a form can look identical to another word once its tone shifts. When a question involves such a shift, look for a small gold note under the feedback.</p>
- <p class="muted">Sources: the rule is discussed in works on Yorùbá tonal phonology (e.g. the assimilated low tone; tone at the edge of complements). For your write-up, cite <b>Owolabi, Ìjìnlẹ̀ Ítúpẹ̀lẹ̀ Èdè Yorùbá</b> for the exact statement and page.</p></div>
+ <p class="muted">Sources: the rule is discussed in works on Yorùbá tonal phonology (the assimilated low tone; tone at the edge of complements). For your write-up, cite <b>Owolabi, Ìjìnlẹ̀ Ítúpẹ̀lẹ̀ Èdè Yorùbá</b> for the exact statement and page.</p></div>
  <button class="btn ghost" onclick="learn()">← Back to Learn</button>`;}
 
 function sandhi(){app().innerHTML=`<div class="h2">Verbs that shift tone</div>
@@ -337,20 +325,21 @@ function howto(){app().innerHTML=`<div class="h2">How to play</div>
  <div class="row"><button class="btn" onclick="levelMenu()">Play now</button>
  <button class="btn ghost" onclick="home()">← Home</button></div>`;}
 
-window.home=home;window.levelMenu=levelMenu;window.newRound=newRound;
-window.learn=learn;window.tonemarks=tonemarks;window.vowel=vowel;window.phrasal=phrasal;
-window.sandhi=sandhi;window.families=families;window.howto=howto;
-window.next=next;window.prev=prev;window.choose=choose;window.useHint=useHint;window.results=results;
-window.famPeek=famPeek;window.famBack=famBack;window.playAudio=playAudio;
-home();
-</script></body></html>'''
-
-html = (GAME_HTML
-        .replace("__Q__", json.dumps(QUESTIONS, ensure_ascii=False))
-        .replace("__F__", json.dumps(FAMILIES, ensure_ascii=False))
-        .replace("__NAME__", GAME_NAME)
-        .replace("__ROUND__", str(ROUND_SIZE))
-        .replace("__PTS__", str(POINTS_CORRECT))
-        .replace("__HINTS__", str(HINTS_PER_ROUND)))
-
-components.html(html, height=900, scrolling=True)
+// ---- startup: load the data, then show the home screen ---------------------
+function fail(msg){app().innerHTML=`<div class="h2">Could not load the game</div>
+ <div class="lesson">${msg}<br><br>If you opened this file directly, run a small web server instead:
+ <br><code>python3 -m http.server</code> then open <code>http://localhost:8000</code>.</div>`;}
+async function boot(){
+ try{
+  const [q,f]=await Promise.all([
+   fetch("questions.json").then(r=>{if(!r.ok)throw new Error("questions.json "+r.status);return r.json();}),
+   fetch("families.json").then(r=>{if(!r.ok)throw new Error("families.json "+r.status);return r.json();})
+  ]);
+  QUESTIONS=q;FAMILIES=f;buildData();
+  // audio.json is optional: word -> "audio/xxx.mp3". Missing file = no audio, no error.
+  try{const a=await fetch("audio.json");if(a.ok)AUDIO=await a.json();}catch(e){}
+  home();
+ }catch(e){fail(String(e));}
+}
+boot();
+</script></body></html>
