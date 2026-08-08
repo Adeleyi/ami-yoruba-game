@@ -140,8 +140,12 @@ function buildData(){
 }
 
 function poolFor(mode){
- if(mode==="sentence")return SENTENCE_ITEMS;
+ // learner levels map to the linguistic content behind the scenes
+ if(mode==="beginner")return WORDITEMS.filter(w=>w.level==="mono");
+ if(mode==="intermediate")return WORDITEMS.filter(w=>w.level==="bi"||w.level==="tri");
+ if(mode==="advanced")return SENTENCE_ITEMS;
  if(mode==="mixed")return WORDITEMS.concat(SENTENCE_ITEMS);
+ if(mode==="sentence")return SENTENCE_ITEMS;
  return WORDITEMS.filter(w=>w.level===mode);
 }
 
@@ -230,16 +234,14 @@ function home(){peek=false;const r=rankFor(P.coins);
  <button class="btn ghost" onclick="howto()">How to play</button>`;}
 
 function levelMenu(){peek=false;
- const counts={mono:poolFor("mono").length,bi:poolFor("bi").length,tri:poolFor("tri").length,sentence:poolFor("sentence").length};
- function lvBtn(mode,label){const n=counts[mode];
+ function lvBtn(mode,label,desc){const n=poolFor(mode).length;
   if(n===0)return `<button class="btn soon" disabled>${label} · coming soon</button>`;
-  return `<button class="btn" onclick="newRound('${mode}')">${label} · ${n} words</button>`;}
- app().innerHTML=`<div class="h2">Choose a level</div>
- <p class="lead">Start small, then build up. Word levels come from the reviewed word families; sentences put tone in context.</p>
- ${lvBtn("mono","1 · Monosyllabic words")}
- ${lvBtn("bi","2 · Bisyllabic words")}
- ${lvBtn("tri","3 · Trisyllabic words")}
- <button class="btn" onclick="newRound('sentence')">4 · Sentences · ${counts.sentence} items</button>
+  return `<button class="btn" onclick="newRound('${mode}')">${label}<br><span style="font-weight:400;font-size:.85rem;opacity:.85">${desc}</span></button>`;}
+ app().innerHTML=`<div class="h2">Choose your level</div>
+ <p class="lead">New to Yorùbá? Start at Beginner and work your way up.</p>
+ ${lvBtn("beginner","Beginner","Single-syllable words · the three tones")}
+ ${lvBtn("intermediate","Intermediate","Two-syllable words · tone & vowel quality")}
+ ${lvBtn("advanced","Advanced","Full sentences · tone in real context")}
  <button class="btn gold" onclick="newRound('mixed')">Mixed practice</button>
  <button class="btn ghost" onclick="home()">← Home</button>`;}
 
