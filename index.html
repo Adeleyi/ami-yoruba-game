@@ -150,12 +150,29 @@ function poolFor(mode){
 }
 
 // ---- round state -----------------------------------------------------------
-let rd=[],i=0,points=0,streak=0,hintsLeft=HINTS,coinsRound=0,coinsAtStart=0,curMode="mono",peek=false;
+let rd=[],i=0,points=0,streak=0,hintsLeft=HINTS,coinsRound=0,coinsAtStart=0,peek=false;
+let baseMode="beginner",roundNum=0,nextIntroduced=false;
+const LADDER=["beginner","intermediate","advanced"];
+const PROMOTE_AFTER=4;                         // rounds at a level before graduating up
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function nextLevel(m){const k=LADDER.indexOf(m);return (k>=0&&k<LADDER.length-1)?LADDER[k+1]:null;}
 
-function newRound(mode){
- curMode=mode;const pool=poolFor(mode);
- if(pool.length===0){levelMenu();return;}
- rd=sample(pool,Math.min(ROUND,pool.length));
+function newRound(mode){baseMode=mode;roundNum=1;startRound();}   // fresh session at this level
+function continueRound(){
+ const nx=nextLevel(baseMode);
+ if(nx&&roundNum>=PROMOTE_AFTER){baseMode=nx;roundNum=1;}         // graduate to the next level
+ else{roundNum++;}
+ startRound();}
+function startRound(){
+ const basePool=poolFor(baseMode);
+ if(!basePool.length){levelMenu();return;}
+ const nx=nextLevel(baseMode);
+ const frac=nx?Math.min(0.4,(roundNum-1)*0.15):0;                 // blend in the next level from round 2
+ const nNext=Math.round(ROUND*frac), nBase=ROUND-nNext;
+ let items=sample(basePool,Math.min(nBase,basePool.length));
+ nextIntroduced=false;
+ if(nx&&nNext>0){const add=sample(poolFor(nx),nNext);if(add.length){items=items.concat(add);nextIntroduced=true;}}
+ rd=shuffle(items);
  rd.forEach(q=>{q._opts=shuffle([...q.options]);q._answered=false;q._picked=null;q._hint=false;});
  i=0;points=0;streak=0;hintsLeft=HINTS;coinsRound=0;coinsAtStart=P.coins;peek=false;play();}
 
@@ -187,7 +204,7 @@ function play(){
  <button class="btn ghost" onclick="next()" ${i===N-1?'disabled':''}>Next →</button></div>`;
  const finish=allAns?`<button class="btn gold" onclick="results()">See your score</button>`:"";
  app().innerHTML=`
- <div class="meta"><span>Question ${i+1} of ${N} · ${points} pts · 🪙 ${P.coins}${streak?' · streak '+streak:''}</span>
+ <div class="meta"><span>Round ${roundNum} · Q${i+1}/${N} · ${points} pts · 🪙 ${P.coins}${streak?' · streak '+streak:''}</span>
  <a href="#" onclick="home();return false" class="muted">Quit</a></div>
  <div class="bar"><i style="width:${(i+1)/N*100}%"></i></div>
  ${promptHtml}
@@ -211,13 +228,17 @@ function results(){
  const pct=Math.round(100*correct/total);
  P.played=(P.played||0)+1; if(pct>P.best)P.best=pct; saveP();
  const b=correct===total?"perfect":pct>=80?"strong":pct>=60?"middle":pct>=40?"low":"vlow";
- const before=rankFor(coinsAtStart), now=rankFor(P.coins);
- const rankup=(now.name!==before.name)?`<div class="rankup">🎉 New rank: <b>${now.name}</b> (${now.gloss})</div>`:"";
- app().innerHTML=`<div class="h2">Round complete</div>
+ const nx=nextLevel(baseMode);
+ const willPromote=nx&&roundNum>=PROMOTE_AFTER;
+ const note=willPromote
+   ?`<div class="rankup">🎉 You're ready for <b>${cap(nx)}</b> — the next round moves you up.</div>`
+   :(nextIntroduced?`<div class="rankup">🌱 A few harder words are mixing in — keep going.</div>`:"");
+ const contLabel=willPromote?`Continue to ${cap(nx)} →`:`Next round →`;
+ app().innerHTML=`<div class="h2">Round ${roundNum} complete</div>
  <div class="sentence">You got <b>${correct} / ${total}</b> correct &nbsp;·&nbsp; ${points} points &nbsp;·&nbsp; 🪙 +${coinsRound}
  <br><span class="muted">${pickOne(MSG[b])}</span></div>
- ${rankup}
- <button class="btn" onclick="newRound('${curMode}')">Play again</button>
+ ${note}
+ <button class="btn" onclick="continueRound()">${contLabel}</button>
  <div class="row"><button class="btn ghost" onclick="levelMenu()">Levels</button>
  <button class="btn ghost" onclick="home()">Home</button></div>`;
 }
