@@ -42,8 +42,11 @@ without touching code.
 - **Word families inside a round** — consult a family without losing your place.
 - **Progress retention** — coins, best score and rank persist in the browser
   (localStorage). Returning on the same device resumes automatically; no login.
-- **Gamification** — a coin per correct answer, free starter coins, and a
-  5-tier tone-themed rank ladder (names pending native review).
+- **Gamification** — a coin per correct answer and free starter coins. (A rank
+  ladder was prototyped and then removed for now; see further work.)
+- **Continue & resume** — rounds continue (2, 3, …) with the next level gently
+  blended in, then graduate up; progress is saved so learners can **Resume** their
+  level. A UX pass removed redundant labels/metrics and merged duplicate lessons.
 - **Audio hook** — an optional `audio` field per item and a 🔊 button, ready for
   native recordings (hidden until recordings exist).
 - **Static web app** — the game was extracted to a single `index.html` (+ the
@@ -88,6 +91,10 @@ Priority order:
    can also be taught.
 8. **Accounts / cross-device progress** — free Supabase/Firebase tier, with
    unique usernames, only when the need is real.
+9. **Ranks & richer gamification** — a Yorùbá rank ladder (names native-reviewed),
+   badges, streak rewards. Prototyped once; deferred to keep the core focused.
+10. **Audio in Learn & Dictionary** — 🔊 on lesson examples and dictionary results
+    once native recordings exist.
 
 Deferred / later: subscriptions & tokens, player ranks with cultural names,
 Yorùbá songs & chants on success, cultural/history content, children's mode

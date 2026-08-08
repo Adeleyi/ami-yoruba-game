@@ -90,14 +90,17 @@ middle:["Good work. You are getting the hang of the tones.","Solid round. Keep p
 low:["You are getting there. Try another round.","A fair start. Visit Learn, then play again.","Keep going. Each round will make the tones clearer."],
 vlow:["Do not worry, tones take practice. Visit Learn, then try again.","Tone is tricky at first. Spend a moment in Learn and come back.","A tough round. The Learn section will help, then give it another go."]};
 
-// Rank names are tone-themed and PENDING NATIVE-SPEAKER REVIEW. Edit freely.
-const RANKS=[
- {min:0,   name:"Ìbẹ̀rẹ̀",     gloss:"Beginner"},
- {min:10,  name:"Ohùn Ìsàlẹ̀", gloss:"Low tone"},
- {min:25,  name:"Ohùn Àárín",  gloss:"Mid tone"},
- {min:50,  name:"Ohùn Òkè",    gloss:"High tone"},
- {min:100, name:"Ọ̀gá Àmì",    gloss:"Tone master"}];
-function rankFor(c){let r=RANKS[0];for(const x of RANKS){if(c>=x.min)r=x;}return r;}
+// tone pattern of a word, e.g. "Mid-Low" — used for a teaching hint on word rounds
+function tonePattern(word){
+ const d=word.normalize("NFD"),out=[];
+ for(let k=0;k<d.length;k++){
+  if("aeiou".includes(d[k].toLowerCase())){
+   let t="Mid";
+   for(let j=k+1;j<d.length;j++){const c=d[j];
+    if(c==="̣")continue; if(c==="̀"){t="Low";break;} if(c==="́"){t="High";break;} break;}
+   out.push(t);}}
+ return out.join("-")||"Mid";
+}
 
 // ---- persistent progress (browser localStorage; no server, no cost) --------
 function loadP(){try{return JSON.parse(localStorage.getItem("ami")||"{}");}catch(e){return {};}}
@@ -150,7 +153,7 @@ function poolFor(mode){
 }
 
 // ---- round state -----------------------------------------------------------
-let rd=[],i=0,points=0,streak=0,hintsLeft=HINTS,coinsRound=0,coinsAtStart=0,peek=false;
+let rd=[],i=0,streak=0,hintsLeft=HINTS,coinsRound=0,peek=false;
 let baseMode="beginner",roundNum=0,nextIntroduced=false;
 const LADDER=["beginner","intermediate","advanced"];
 const PROMOTE_AFTER=4;                         // rounds at a level before graduating up
@@ -158,6 +161,7 @@ const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 function nextLevel(m){const k=LADDER.indexOf(m);return (k>=0&&k<LADDER.length-1)?LADDER[k+1]:null;}
 
 function newRound(mode){baseMode=mode;roundNum=1;startRound();}   // fresh session at this level
+function resumeGame(){baseMode=P.level||"beginner";roundNum=P.round||1;startRound();}
 function continueRound(){
  const nx=nextLevel(baseMode);
  if(nx&&roundNum>=PROMOTE_AFTER){baseMode=nx;roundNum=1;}         // graduate to the next level
@@ -174,12 +178,12 @@ function startRound(){
  if(nx&&nNext>0){const add=sample(poolFor(nx),nNext);if(add.length){items=items.concat(add);nextIntroduced=true;}}
  rd=shuffle(items);
  rd.forEach(q=>{q._opts=shuffle([...q.options]);q._answered=false;q._picked=null;q._hint=false;});
- i=0;points=0;streak=0;hintsLeft=HINTS;coinsRound=0;coinsAtStart=P.coins;peek=false;play();}
+ i=0;streak=0;hintsLeft=HINTS;coinsRound=0;peek=false;P.level=baseMode;P.round=roundNum;saveP();play();}
 
 function play(){
  if(peek){return renderFamilies(true);}
  const q=rd[i],N=rd.length;
- const show=q._hint||q._answered, allAns=rd.every(x=>x._answered);
+ const show=q._answered||(q._hint&&q.kind==="sentence"), allAns=rd.every(x=>x._answered);
  function card(o){let c="card";
   if(q._answered){c+=" lock";if(o.word===q.correctWord)c+=" good";else if(o.word===q._picked)c+=" bad";}
   return `<div class="${c}" data-w="${o.word}"><div class="word">${o.word}</div><div class="mean">${show?o.meaning:""}</div></div>`;}
@@ -188,13 +192,15 @@ function play(){
   promptHtml=`<div class="sentence">${q.sentence}</div><div class="hint">💬 ${q.translation}</div>`;
  }else{
   promptHtml=`<div class="promptcard"><div class="promptbare">${q.bare}</div>
-  <div class="promptgloss">${q.prompt}</div><div class="promptclass">pick the correct tone</div></div>`;
+  <div class="promptgloss">${q.prompt}</div></div>`;
  }
  let feed="",hintArea="";
  if(q._answered){const ok=q._picked===q.correctWord;
   feed=`<div class="feed ${ok?'good':'bad'}">${ok?'✓ Correct. ':'✗ Not quite. The answer is <b>'+q.correctWord+'</b>. '}${q.explanation}</div>`;
   if(q.sandhi_note){feed+=`<div class="feed sandhi">🔁 ${q.sandhi_note}</div>`;}
- }else if(q._hint){hintArea=`<div class="hintnote">Hints left: ${hintsLeft}</div>`;}
+ }else if(q._hint){hintArea=q.kind==="word"
+   ?`<div class="hintnote">The answer's tone pattern is <b>${tonePattern(q.correctWord)}</b> · Hints left: ${hintsLeft}</div>`
+   :`<div class="hintnote">Hints left: ${hintsLeft}</div>`;}
  else{hintArea=`<button class="btn ghost" onclick="useHint()" ${hintsLeft===0?'disabled':''}>${hintsLeft===0?'No hints left':'Hint'} (${hintsLeft} left)</button>`;}
  let listen=q._opts.filter(o=>AUDIO[o.word]).map(o=>`<button class="audio" onclick="playAudio('${AUDIO[o.word]}')">🔊 ${o.word}</button>`).join(" ");
  if(q.audio)listen=`<button class="audio" onclick="playAudio('${q.audio}')">🔊 sentence</button> `+listen;
@@ -204,7 +210,7 @@ function play(){
  <button class="btn ghost" onclick="next()" ${i===N-1?'disabled':''}>Next →</button></div>`;
  const finish=allAns?`<button class="btn gold" onclick="results()">See your score</button>`:"";
  app().innerHTML=`
- <div class="meta"><span>Round ${roundNum} · Q${i+1}/${N} · ${points} pts · 🪙 ${P.coins}${streak?' · streak '+streak:''}</span>
+ <div class="meta"><span>Round ${roundNum} · Q${i+1}/${N} · 🪙 ${P.coins}${streak?' · streak '+streak:''}</span>
  <a href="#" onclick="home();return false" class="muted">Quit</a></div>
  <div class="bar"><i style="width:${(i+1)/N*100}%"></i></div>
  ${promptHtml}
@@ -214,7 +220,7 @@ function play(){
 }
 
 function choose(w){const q=rd[i];if(q._answered)return;q._answered=true;q._picked=w;
- if(w===q.correctWord){points+=PTS;streak++;coinsRound++;P.coins++;saveP();}else{streak=0;}play();}
+ if(w===q.correctWord){streak++;coinsRound++;P.coins++;saveP();}else{streak=0;}play();}
 function useHint(){const q=rd[i];if(q._hint||q._answered||hintsLeft===0)return;q._hint=true;hintsLeft--;play();}
 function prev(){if(i>0){i--;play();}}
 function next(){if(i<rd.length-1){i++;play();}}
@@ -235,7 +241,7 @@ function results(){
    :(nextIntroduced?`<div class="rankup">🌱 A few harder words are mixing in — keep going.</div>`:"");
  const contLabel=willPromote?`Continue to ${cap(nx)} →`:`Next round →`;
  app().innerHTML=`<div class="h2">Round ${roundNum} complete</div>
- <div class="sentence">You got <b>${correct} / ${total}</b> correct &nbsp;·&nbsp; ${points} points &nbsp;·&nbsp; 🪙 +${coinsRound}
+ <div class="sentence">You got <b>${correct} / ${total}</b> correct &nbsp;·&nbsp; 🪙 +${coinsRound}
  <br><span class="muted">${pickOne(MSG[b])}</span></div>
  ${note}
  <button class="btn" onclick="continueRound()">${contLabel}</button>
@@ -245,9 +251,12 @@ function results(){
 
 // ---- screens ---------------------------------------------------------------
 function home(){peek=false;
+ const resume=(P.level&&P.played)?`<button class="btn" onclick="resumeGame()">Resume ${cap(P.level)} →</button>`:"";
  app().innerHTML=`
- <div class="home"><div class="title">${NAME}</div><div class="marks">à <b>a</b> á</div></div>
- <button class="btn" onclick="levelMenu()">Play</button>
+ <div class="home"><div class="title">${NAME}</div><div class="marks">à <b>a</b> á</div>
+ <p class="lead" style="margin-top:.7rem">Learn to hear and read Yorùbá tone.</p></div>
+ ${resume}
+ <button class="btn${resume?' ghost':''}" onclick="levelMenu()">${resume?'Choose a level':'Play'}</button>
  <div class="row"><button class="btn ghost" onclick="learn()">Learn</button>
  <button class="btn ghost" onclick="lookup()">Dictionary</button></div>
  <button class="btn ghost" onclick="howto()">How to play</button>`;}
@@ -261,7 +270,7 @@ function levelMenu(){peek=false;
  ${lvBtn("beginner","Beginner","Single-syllable words · the three tones")}
  ${lvBtn("intermediate","Intermediate","Two-syllable words · tone & vowel quality")}
  ${lvBtn("advanced","Advanced","Full sentences · tone in real context")}
- <button class="btn gold" onclick="newRound('mixed')">Mixed practice</button>
+ <button class="btn ghost" onclick="newRound('mixed')">Mixed practice</button>
  <button class="btn ghost" onclick="home()">← Home</button>`;}
 
 function renderFamilies(inRound){
@@ -296,8 +305,7 @@ function doSearch(qraw){
 function learn(){peek=false;app().innerHTML=`<div class="h2">Learn</div>
  <button class="btn" onclick="tonemarks()">Tone marks (the three tones)</button>
  <button class="btn" onclick="vowel()">Vowel quality (the subdot)</button>
- <button class="btn" onclick="phrasal()">Phrasal combination (tone changes when words join)</button>
- <button class="btn" onclick="sandhi()">Verbs that shift tone</button>
+ <button class="btn" onclick="phrasal()">Tone changes when words join</button>
  <button class="btn" onclick="families()">Word families</button>
  <button class="btn soon" disabled>Yorùbá tongue twisters · coming soon</button>
  <button class="btn ghost" onclick="home()">← Home</button>`;}
@@ -318,30 +326,22 @@ function vowel(){app().innerHTML=`<div class="h2">Vowel quality, the subdot</div
  Because the subdot changes the sound, it can change a word’s meaning, just like a tone mark.</div>
  <button class="btn ghost" onclick="learn()">← Back to Learn</button>`;}
 
-function phrasal(){app().innerHTML=`<div class="h2">Phrasal combination</div>
- <div class="lesson"><p>A word does not always keep the tone it has on its own. When two words <b>join</b> in a phrase, the tone of one — or both — can change. So the word you learn in the dictionary may sound a little different once it sits inside a sentence.</p>
- <p><b>The main pattern.</b> A short (one-syllable) <b>verb</b> that carries a <b>low tone</b> on its own often loses that low tone when a <b>noun</b> follows it directly. In the linguistics literature this is described as the verb’s low tone being <i>suppressed before its object</i>.</p>
- <p><b>An example from this game.</b> The word for <i>to know</i> is <b>mọ̀</b> (low) on its own. But in “<i>Ta ló mọ orúkọ...?</i>” it is said as <b>mọ</b> (mid) — the same verb, smoothing its pitch before the noun.</p>
- <p>This is why a form can look identical to another word once its tone shifts. When a question involves such a shift, look for a small gold note under the feedback.</p>
- <p class="muted">Sources: the rule is discussed in works on Yorùbá tonal phonology (the assimilated low tone; tone at the edge of complements). For your write-up, cite <b>Owolabi, Ìjìnlẹ̀ Ítúpẹ̀lẹ̀ Èdè Yorùbá</b> for the exact statement and page.</p></div>
- <button class="btn ghost" onclick="learn()">← Back to Learn</button>`;}
-
-function sandhi(){app().innerHTML=`<div class="h2">Verbs that shift tone</div>
- <div class="lesson">Some short (one-syllable) verbs carry a <b>low tone</b> when they stand alone,
- but that low tone rises to a <b>mid tone</b> when the verb is directly followed by a noun.
- <ul><li><b>Sùn</b> (to sleep) on its own → <b>sun oorun</b> (to sleep deeply).</li>
- <li><b>Nà</b> (to beat) on its own → <b>na Dada</b> (to beat Dada).</li></ul>
- This is not a new word, and the meaning does not change. It is the same verb, smoothing its
- pitch before an object — the same way English “a” becomes “an” before a vowel sound.
- See also <b>Phrasal combination</b> above.</div>
+function phrasal(){app().innerHTML=`<div class="h2">Tone changes when words join</div>
+ <div class="lesson"><p>A word does not always keep the tone it has on its own. When two words <b>join</b> in a phrase, the tone of one — or both — can change. So a word can sound a little different once it sits inside a sentence.</p>
+ <p><b>The main pattern.</b> A short (one-syllable) <b>verb</b> with a <b>low tone</b> on its own often loses that low tone when a <b>noun</b> follows it directly — the low tone is <i>suppressed before the object</i>.</p>
+ <ul><li><b>Sùn</b> (to sleep) → <b>sun oorun</b> (to sleep deeply).</li>
+ <li><b>Nà</b> (to beat) → <b>na Dada</b> (to beat Dada).</li>
+ <li><b>Mọ̀</b> (to know) → <b>mọ</b> in “<i>Ta ló mọ orúkọ…?</i>”.</li></ul>
+ <p>The meaning does not change — it is the same verb, smoothing its pitch before an object, like English “a” becoming “an” before a vowel. When a question involves this, look for a small gold note under the feedback.</p>
+ <p class="muted">Cite <b>Owolabi, Ìjìnlẹ̀ Ítúpẹ̀lẹ̀ Èdè Yorùbá</b> for the exact rule and page; see also the assimilated low tone / tone at the edge of complements in the Yorùbá tonology literature.</p></div>
  <button class="btn ghost" onclick="learn()">← Back to Learn</button>`;}
 
 function howto(){app().innerHTML=`<div class="h2">How to play</div>
- <div class="lesson"><ol><li>Pick a level. Start with <b>monosyllabic words</b>, then work up to sentences.</li>
+ <div class="lesson"><ol><li>Pick a level — start at <b>Beginner</b> and work up as harder words mix in.</li>
  <li>Read the prompt and pick the word whose tone marks fit the meaning.</li>
  <li>Yorùbá uses three tone marks: low (<b>à</b>), mid (<b>a</b>, no mark), high (<b>á</b>).</li>
- <li>Stuck? Use a <b>Hint</b> to reveal the meanings (${HINTS} per round).</li>
- <li>Each correct answer earns points and a coin 🪙. Collect coins to climb the ranks.</li></ol>
+ <li>Stuck? Use a <b>Hint</b> (${HINTS} per round) — on word rounds it reveals the answer's tone pattern.</li>
+ <li>Each correct answer earns a coin 🪙, and your progress is saved so you can resume later.</li></ol>
  New to tones? Open <b>Learn</b> first.</div>
  <div class="row"><button class="btn" onclick="levelMenu()">Play now</button>
  <button class="btn ghost" onclick="home()">← Home</button></div>`;}
